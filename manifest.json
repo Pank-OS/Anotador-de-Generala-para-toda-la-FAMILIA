@@ -1,0 +1,10 @@
+{
+  "name": "Generala Scorekeeper",
+  "short_name": "Generala",
+  "description": "Anotador de puntajes para el juego de Generala con autenticación",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#D2B48C",
+  "theme_color": "#654321",
+  "orientation": "portrait-primary"
+}
