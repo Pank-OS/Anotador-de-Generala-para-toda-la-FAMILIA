@@ -22,81 +22,81 @@
 --color-row2: #FFFFFF;
 --color-bordo: #800000;       /* Color eliminación */
 }
-* { 
-  box-sizing: border-box; 
-  user-select: none; 
-  -webkit-tap-highlight-color: transparent; 
-  touch-action: manipulation;
+* {
+box-sizing: border-box;
+user-select: none;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
 }
 body {
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+background-color: var(--color-fondo);
+color: var(--color-texto);
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+margin: 0;
+padding: 0;
+height: 100vh;
+display: flex;
+flex-direction: column;
+overflow: hidden;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
 }
 /* Pantallas */
 .screen {
-  display: none;
-  flex-direction: column;
-  height: 100%;
-  padding: 20px;
-  overflow-y: auto;
+display: none;
+flex-direction: column;
+height: 100%;
+padding: 20px;
+overflow-y: auto;
 }
-.active { 
-  display: flex; 
-  -webkit-overflow-scrolling: touch;
+.active {
+display: flex;
+-webkit-overflow-scrolling: touch;
 }
 /* Botones Sofisticados */
 button {
-  background: linear-gradient(to bottom, var(--color-boton-light), var(--color-boton));
-  color: var(--color-texto-btn);
-  border: 1px solid #3e2723;
-  border-bottom: 4px solid #2a1a15; /* Efecto 3D */
-  padding: 15px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0px 4px 6px rgba(0,0,0,0.4);
-  transition: all 0.1s ease;
-  text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
-  outline: none;
-  position: relative;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+background: linear-gradient(to bottom, var(--color-boton-light), var(--color-boton));
+color: var(--color-texto-btn);
+border: 1px solid #3e2723;
+border-bottom: 4px solid #2a1a15; /* Efecto 3D */
+padding: 15px;
+font-size: 1.2rem;
+font-weight: bold;
+border-radius: 8px;
+cursor: pointer;
+box-shadow: 0px 4px 6px rgba(0,0,0,0.4);
+transition: all 0.1s ease;
+text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+outline: none;
+position: relative;
+-webkit-appearance: none;
+-moz-appearance: none;
 }
 /* Animación de presión agradable */
 button:active {
-  transform: translateY(3px); /* Se hunde */
-  border-bottom: 1px solid #2a1a15; /* Reduce el borde 3D */
-  box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
-  filter: brightness(1.1); /* Brilla un poco */
+transform: translateY(3px); /* Se hunde */
+border-bottom: 1px solid #2a1a15; /* Reduce el borde 3D */
+box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
+filter: brightness(1.1); /* Brilla un poco */
 }
-button:disabled { 
-  opacity: 0.5; 
-  cursor: not-allowed; 
-  transform: none; 
-  border-bottom: 4px solid #2a1a15; 
+button:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+transform: none;
+border-bottom: 4px solid #2a1a15;
 }
 /* Inputs */
 input[type="text"], input[type="password"], input[type="email"] {
-  padding: 12px;
-  font-size: 1.1rem;
-  border: 2px solid #654321;
-  border-radius: 6px;
-  background: #fff8e1;
-  color: var(--color-texto);
-  width: 100%;
-  font-weight: bold;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+padding: 12px;
+font-size: 1.1rem;
+border: 2px solid #654321;
+border-radius: 6px;
+background: #fff8e1;
+color: var(--color-texto);
+width: 100%;
+font-weight: bold;
+-webkit-appearance: none;
+-moz-appearance: none;
 }
 /* Layouts utilitarios */
 .v-box { display: flex; flex-direction: column; gap: 15px; }
@@ -106,191 +106,387 @@ input[type="text"], input[type="password"], input[type="email"] {
 /* --- HOME SCREEN --- */
 #home-screen { justify-content: center; gap: 30px; }
 .home-title {
-  font-size: 2.2rem;
-  font-weight: 900;
-  text-align: center;
-  color: #3E2723;
-  text-shadow: 1px 1px 0px #fff;
+font-size: 2.2rem;
+font-weight: 900;
+text-align: center;
+color: #3E2723;
+text-shadow: 1px 1px 0px #fff;
 }
 /* --- MENU SCREEN --- */
 .player-row {
-  display: flex;
-  gap: 10px;
-  opacity: 0;
-  animation: slideIn 0.3s forwards;
-  margin-bottom: 10px;
+display: flex;
+gap: 10px;
+opacity: 0;
+animation: slideIn 0.3s forwards;
+margin-bottom: 10px;
 }
-@keyframes slideIn { 
-  from { opacity: 0; transform: translateX(-20px); } 
-  to { opacity: 1; transform: translateX(0); } 
+@keyframes slideIn {
+from { opacity: 0; transform: translateX(-20px); }
+to { opacity: 1; transform: translateX(0); }
 }
 .color-btn {
-  width: 45%;
-  font-size: 1rem;
-  padding: 10px;
-  border-bottom-width: 3px;
-  /* El color de texto se define inline por JS */
-  text-shadow: none;
+width: 45%;
+font-size: 1rem;
+padding: 10px;
+border-bottom-width: 3px;
+/* El color de texto se define inline por JS */
+text-shadow: none;
 }
 /* --- ANOTADOR SCREEN --- */
 .turn-label {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-  text-align: center;
-  background: rgba(255,255,255,0.3);
-  padding: 10px;
-  border-radius: 8px;
-  border: 2px solid #654321;
+font-size: 1.6rem;
+font-weight: bold;
+margin-bottom: 15px;
+text-align: center;
+background: rgba(255,255,255,0.3);
+padding: 10px;
+border-radius: 8px;
+border: 2px solid #654321;
 }
 /* Tabla de puntajes (Grid CSS) */
 #score-grid {
-  display: grid;
-  gap: 2px;
-  background-color: #3E2723; /* Color de líneas de división */
-  border: 4px solid #3E2723;
-  border-radius: 4px;
-  overflow: auto;
-  flex: 1;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+display: grid;
+gap: 2px;
+background-color: #3E2723; /* Color de líneas de división */
+border: 4px solid #3E2723;
+border-radius: 4px;
+overflow: auto;
+flex: 1;
+box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 .cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  font-weight: 800; /* Texto bien grueso */
-  font-size: 1.1rem;
-  min-width: 65px;
-  min-height: 45px;
-  position: relative;
-  text-align: center;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 4px;
+font-weight: 800; /* Texto bien grueso */
+font-size: 1.1rem;
+min-width: 65px;
+min-height: 45px;
+position: relative;
+text-align: center;
 }
 .cell-btn {
-  width: 100%; height: 100%;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  color: inherit;
-  font-weight: inherit; font-size: inherit;
-  cursor: pointer; padding: 0; margin: 0;
-  position: absolute; top: 0; left: 0;
-  transform: none !important; /* Desactivar animación de botón estándar para celdas */
+width: 100%; height: 100%;
+background: transparent !important;
+border: none !important;
+box-shadow: none !important;
+color: inherit;
+font-weight: inherit; font-size: inherit;
+cursor: pointer; padding: 0; margin: 0;
+position: absolute; top: 0; left: 0;
+transform: none !important; /* Desactivar animación de botón estándar para celdas */
 }
 .cell-btn:active {
-  background-color: rgba(0,0,0,0.1) !important; /* Feedback visual sutil */
+background-color: rgba(0,0,0,0.1) !important; /* Feedback visual sutil */
 }
-.header-col { 
-  background-color: var(--color-fondo); 
-  color: var(--color-texto); 
-  font-size: 0.9rem;
+.header-col {
+background-color: var(--color-fondo);
+color: var(--color-texto);
+font-size: 0.9rem;
 }
 /* --- ESTILOS DE JUGADOR ELIMINADO --- */
 .dead-cell {
-  background-color: var(--color-bordo) !important;
-  color: white !important; /* Texto base blanco sobre bordó para contraste */
-  position: relative;
+background-color: var(--color-bordo) !important;
+color: white !important; /* Texto base blanco sobre bordó para contraste */
+position: relative;
 }
 /* Línea Negra (Diagonal) */
 .dead-line-black::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(to top right, transparent calc(50% - 2px), black calc(50% - 2px), black calc(50% + 2px), transparent calc(50% + 2px));
-  pointer-events: none;
+content: "";
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+background: linear-gradient(to top right, transparent calc(50% - 2px), black calc(50% - 2px), black calc(50% + 2px), transparent calc(50% + 2px));
+pointer-events: none;
 }
 /* Línea Blanca (Diagonal - para jugador negro) */
 .dead-line-white::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(to top right, transparent calc(50% - 2px), white calc(50% - 2px), white calc(50% + 2px), transparent calc(50% + 2px));
-  pointer-events: none;
+content: "";
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+background: linear-gradient(to top right, transparent calc(50% - 2px), white calc(50% - 2px), white calc(50% + 2px), transparent calc(50% + 2px));
+pointer-events: none;
 }
 /* --- POPUPS / MODALS --- */
 .modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(2px);
-  display: none; align-items: center; justify-content: center;
-  z-index: 1000;
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background: rgba(0,0,0,0.7);
+backdrop-filter: blur(2px);
+display: none; align-items: center; justify-content: center;
+z-index: 1000;
 }
 .modal-content {
-  background: linear-gradient(to bottom, #fff, #f0f0f0);
-  padding: 25px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 85vh;
-  overflow-y: auto;
-  border-radius: 12px;
-  display: flex; flex-direction: column; gap: 20px;
-  text-align: center;
-  color: black;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  border: 2px solid #654321;
+background: linear-gradient(to bottom, #fff, #f0f0f0);
+padding: 25px;
+width: 90%;
+max-width: 400px;
+max-height: 85vh;
+overflow-y: auto;
+border-radius: 12px;
+display: flex; flex-direction: column; gap: 20px;
+text-align: center;
+color: black;
+box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+border: 2px solid #654321;
 }
 .grid-colors, .grid-scores, .grid-lang {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
 }
 .score-val-btn { font-size: 1.4rem; padding: 10px; }
-
 /* --- LOGIN SCREEN ESTYLES --- */
 #login-screen {
-  justify-content: center;
-  gap: 25px;
+justify-content: center;
+gap: 25px;
 }
 .login-title {
-  font-size: 2.0rem;
-  font-weight: 900;
-  text-align: center;
-  color: #3E2723;
-  text-shadow: 1px 1px 0px #fff;
-  margin-bottom: 10px;
+font-size: 2.0rem;
+font-weight: 900;
+text-align: center;
+color: #3E2723;
+text-shadow: 1px 1px 0px #fff;
+margin-bottom: 10px;
 }
 .login-container {
-  background: rgba(255,255,255,0.85);
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  border: 2px solid #654321;
+background: rgba(255,255,255,0.85);
+border-radius: 15px;
+padding: 25px;
+box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+border: 2px solid #654321;
 }
 .login-field {
-  margin-bottom: 20px;
+margin-bottom: 20px;
 }
 .login-field label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #3E2723;
-  font-size: 1.1rem;
+display: block;
+margin-bottom: 8px;
+font-weight: bold;
+color: #3E2723;
+font-size: 1.1rem;
 }
 .login-error {
-  color: #ff4757;
-  font-weight: bold;
-  margin-top: 15px;
-  font-size: 1.05rem;
-  text-align: center;
-  display: none;
+color: #ff4757;
+font-weight: bold;
+margin-top: 15px;
+font-size: 1.05rem;
+text-align: center;
+display: none;
+}
+/* --- ESTILO CORONA --- */
+.leader-crown {
+position: absolute;
+top: -28px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 1.8rem;
+text-shadow: 0 0 8px gold, 0 0 12px gold;
+animation: pulse 1.5s infinite;
+z-index: 10;
+}
+@keyframes pulse {
+0%, 100% { transform: translateX(-50%) scale(1); }
+50% { transform: translateX(-50%) scale(1.1); }
+}
+
+/* --- MEDIA QUERIES PARA RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+body {
+font-size: 0.9rem;
+}
+.home-title {
+font-size: 1.8rem;
+}
+button {
+padding: 12px;
+font-size: 1.0rem;
+}
+.player-row {
+flex-direction: column;
+}
+.player-row input, .player-row .color-btn {
+width: 100%;
+}
+.cell {
+padding: 3px;
+font-size: 0.95rem;
+min-width: 60px;
+min-height: 40px;
+}
+.turn-label {
+font-size: 1.4rem;
+margin-bottom: 12px;
+}
+.leader-crown {
+font-size: 1.5rem;
+top: -25px;
+}
+}
+
+@media (max-width: 480px) {
+body {
+font-size: 0.85rem;
+}
+.home-title {
+font-size: 1.6rem;
+}
+button {
+padding: 10px;
+font-size: 0.9rem;
+}
+.login-title, #lbl-lang-title {
+font-size: 1.7rem;
+}
+.cell {
+font-size: 0.85rem;
+min-width: 50px;
+min-height: 35px;
+padding: 2px;
+}
+.turn-label {
+font-size: 1.2rem;
+}
+.header-col {
+font-size: 0.8rem;
+}
+.leader-crown {
+font-size: 1.3rem;
+top: -22px;
+}
+}
+
+@media (min-width: 1200px) {
+.home-title {
+font-size: 2.6rem;
+}
+button {
+padding: 20px;
+font-size: 1.4rem;
+}
+.cell {
+font-size: 1.3rem;
+min-width: 80px;
+min-height: 55px;
+}
+.turn-label {
+font-size: 1.8rem;
+}
+}
+
+/* --- ANIMACIÓN VICTORIA --- */
+#winner-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: radial-gradient(circle, #000033, #000066, #000099);
+z-index: 3000;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+color: white;
+text-align: center;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+overflow: hidden;
+}
+.winner-title {
+font-size: 4rem;
+font-weight: 900;
+color: gold;
+text-shadow: 
+0 0 10px rgba(255,215,0,0.9),
+0 0 20px rgba(255,215,0,0.8),
+0 0 30px rgba(255,215,0,0.7);
+margin-bottom: 30px;
+animation: shine 3s infinite linear;
+background: linear-gradient(to right, #ffd700, #ffa500, #ffd700);
+background-size: 200% auto;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+@keyframes shine {
+0% { background-position: 0% 50%; }
+100% { background-position: 200% 50%; }
+}
+.particles-container {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+}
+.winner-message {
+font-size: 2.5rem;
+color: white;
+margin-bottom: 40px;
+text-shadow: 0 0 15px rgba(255,255,255,0.8);
+}
+.close-btn {
+padding: 15px 40px;
+font-size: 1.4rem;
+background: linear-gradient(to bottom, gold, #daa520);
+color: #3E23;
+border: none;
+border-radius: 50px;
+cursor: pointer;
+box-shadow: 
+0 0 15px rgba(255,215,0,0.8),
+0 0 30px rgba(255,215,0,0.6),
+0 0 45px rgba(255,215,0,0.4);
+transition: all 0.3s ease;
+margin-top: 20px;
+font-weight: bold;
+text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+.close-btn:hover {
+transform: scale(1.05);
+box-shadow: 
+0 0 20px rgba(255,215,0,0.9),
+0 0 40px rgba(255,215,0,0.8),
+0 0 60px rgba(255,215,0,0.6);
+}
+.close-btn:active {
+transform: scale(0.98);
+}
+@keyframes float {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-15px); }
+}
+@keyframes sparkle {
+0% { opacity: 0; transform: scale(0) rotate(0deg); }
+20% { opacity: 1; }
+100% { opacity: 0; transform: scale(1.5) rotate(180deg); }
+}
+/* Animación para el botón de cerrar */
+@keyframes gradientBG {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+.close-btn {
+background-size: 200% 200%;
+animation: gradientBG 3s ease infinite;
 }
 </style>
 </head>
 <body>
 <div id="login-screen" class="screen active">
-  <div class="login-title">🔒 Acceso Restringido</div>
-  <div class="login-container">
-    <div class="login-field">
-      <label for="password-input">Contraseña:</label>
-      <input type="password" id="password-input" placeholder="Ingresa la contraseña">
-    </div>
-    <div class="login-field">
-      <label for="email-input">Correo Electrónico:</label>
-      <input type="email" id="email-input" placeholder="tuemail@example.com">
-    </div>
-    <button id="login-btn" onclick="validateLogin()">Acceder al Juego</button>
-    <div id="login-error" class="login-error">Contraseña o correo incorrecto</div>
-  </div>
+<div class="login-title">🔒 Acceso Restringido</div>
+<div class="login-container">
+<div class="login-field">
+<label for="password-input">Contraseña:</label>
+<input type="password" id="password-input" placeholder="Ingresa la contraseña">
+</div>
+<div class="login-field">
+<label for="email-input">Correo Electrónico:</label>
+<input type="email" id="email-input" placeholder="tuemail@example.com">
+</div>
+<button id="login-btn" onclick="validateLogin()">Acceder al Juego</button>
+<div id="login-error" class="login-error">Contraseña o correo incorrecto</div>
+</div>
 </div>
 <div id="home-screen" class="screen">
 <div class="home-title" id="lbl-home-welcome">BIENVENIDOS AL ANOTADOR DE GENERALA</div>
@@ -340,123 +536,114 @@ input[type="text"], input[type="password"], input[type="email"] {
 // ----------------- SONIDO MEJORADO (Web Audio API) -----------------
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playSound() {
-  // Sonido "Pop" adictivo y notorio
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  const t = audioCtx.currentTime;
-  const oscillator = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
-  oscillator.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-  // Tipo de onda: Sine (suave) pero con una caída rápida de frecuencia para el "golpe"
-  oscillator.type = 'sine';
-  // Frecuencia: Empieza alto (800Hz) y cae a bajo (150Hz) muy rápido
-  oscillator.frequency.setValueAtTime(800, t);
-  oscillator.frequency.exponentialRampToValueAtTime(150, t + 0.1);
-  // Volumen: Ataque instantáneo y decaimiento exponencial sin "click" al final
-  gainNode.gain.setValueAtTime(0, t);
-  gainNode.gain.linearRampToValueAtTime(0.8, t + 0.01); // Volumen más alto
-  gainNode.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-  oscillator.start(t);
-  oscillator.stop(t + 0.16);
+// Sonido "Pop" adictivo y notorio
+if (audioCtx.state === 'suspended') audioCtx.resume();
+const t = audioCtx.currentTime;
+const oscillator = audioCtx.createOscillator();
+const gainNode = audioCtx.createGain();
+oscillator.connect(gainNode);
+gainNode.connect(audioCtx.destination);
+// Tipo de onda: Sine (suave) pero con una caída rápida de frecuencia para el "golpe"
+oscillator.type = 'sine';
+// Frecuencia: Empieza alto (800Hz) y cae a bajo (150Hz) muy rápido
+oscillator.frequency.setValueAtTime(800, t);
+oscillator.frequency.exponentialRampToValueAtTime(150, t + 0.1);
+// Volumen: Ataque instantáneo y decaimiento exponencial sin "click" al final
+gainNode.gain.setValueAtTime(0, t);
+gainNode.gain.linearRampToValueAtTime(0.8, t + 0.01); // Volumen más alto
+gainNode.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+oscillator.start(t);
+oscillator.stop(t + 0.16);
 }
 // Agregar sonido a todos los botones del documento
 document.addEventListener('click', function(e) {
-  // Si es un botón o está dentro de un botón
-  if(e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-    playSound();
-  }
+// Si es un botón o está dentro de un botón
+if(e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+playSound();
+}
 });
-
 // ----------------- SISTEMA DE SEGURIDAD -----------------
 const AUTHORIZED_EMAILS = [
-  "franciscojcanestro@gmail.com",
-  "javiercanestro@gmail.com",
-  "ineslogioco@gmail.com",
-  "juanacanestro@gmail.com",
-  "camilacanestro@gmail.com",
-  "benitocanestro@gmail.com",
-  "mateocanestro@gmail.com",
-  "pedrojcanestro@gmail.com"
+"franciscojcanestro@gmail.com",
+"javier.canestro@gmail.com",
+"ineslogioco@gmail.com",
+"juanacanestro@gmail.com",
+"camilacanestro@gmail.com",
+"benitocanestro@gmail.com",
+"mateocanestro@gmail.com",
+"pedrojcanestro@gmail.com"
 ];
 const ACCESS_PASSWORD = "4444";
-
 function validateLogin() {
-  const passwordInput = document.getElementById('password-input').value.trim();
-  const emailInput = document.getElementById('email-input').value.trim().toLowerCase();
-  const errorElement = document.getElementById('login-error');
-  
-  // Verificar autenticación
-  if (passwordInput === ACCESS_PASSWORD && AUTHORIZED_EMAILS.includes(emailInput)) {
-    // Guardar en localStorage que este usuario está autorizado
-    localStorage.setItem('generala_authenticated', JSON.stringify({
-      email: emailInput,
-      timestamp: new Date().toISOString()
-    }));
-    
-    // Ir a la pantalla de inicio
-    navTo('home');
-  } else {
-    // Mostrar error
-    errorElement.style.display = 'block';
-    setTimeout(() => {
-      errorElement.style.display = 'none';
-    }, 3000);
-  }
+const passwordInput = document.getElementById('password-input').value.trim();
+const emailInput = document.getElementById('email-input').value.trim().toLowerCase();
+const errorElement = document.getElementById('login-error');
+// Verificar autenticación
+if (passwordInput === ACCESS_PASSWORD && AUTHORIZED_EMAILS.includes(emailInput)) {
+// Guardar en localStorage que este usuario está autorizado
+localStorage.setItem('generala_authenticated', JSON.stringify({
+email: emailInput,
+timestamp: new Date().toISOString()
+}));
+// Ir a la pantalla de inicio
+navTo('home');
+} else {
+// Mostrar error
+errorElement.style.display = 'block';
+setTimeout(() => {
+errorElement.style.display = 'none';
+}, 3000);
 }
-
+}
 // Verificar si el usuario ya está autenticado al cargar la página
 function checkAuthentication() {
-  const authData = localStorage.getItem('generala_authenticated');
-  if (authData) {
-    try {
-      const parsedData = JSON.parse(authData);
-      // Verificar que el correo aún esté autorizado
-      if (AUTHORIZED_EMAILS.includes(parsedData.email.toLowerCase())) {
-        // Ya está autenticado, ir directamente a home
-        navTo('home');
-        return;
-      }
-    } catch (e) {
-      console.error("Error parsing auth data", e);
-    }
-  }
-  // Si no está autenticado, mostrar pantalla de login
-  navTo('login');
+const authData = localStorage.getItem('generala_authenticated');
+if (authData) {
+try {
+const parsedData = JSON.parse(authData);
+// Verificar que el correo aún esté autorizado
+if (AUTHORIZED_EMAILS.includes(parsedData.email.toLowerCase())) {
+// Ya está autenticado, ir directamente a home
+navTo('home');
+return;
 }
-
+} catch (e) {
+console.error("Error parsing auth data", e);
+}
+}
+// Si no está autenticado, mostrar pantalla de login
+navTo('login');
+}
 // ----------------- SEGURIDAD ADICIONAL -----------------
 function sanitizeInput(input) {
-  const div = document.createElement('div');
-  div.textContent = input;
-  return div.innerHTML;
+const div = document.createElement('div');
+div.textContent = input;
+return div.innerHTML;
 }
-
 function saveGameSecure() {
-  const data = {
-    names: app.jugadores,
-    scores: app.puntajes
-  };
-  // Encriptación básica (para mejor seguridad, usar librería como CryptoJS)
-  const encrypted = btoa(JSON.stringify(data));
-  localStorage.setItem('generala_secure_data', encrypted);
+const data = {
+names: app.jugadores,
+scores: app.puntajes
+};
+// Encriptación básica (para mejor seguridad, usar librería como CryptoJS)
+const encrypted = btoa(JSON.stringify(data));
+localStorage.setItem('generala_secure_data', encrypted);
 }
-
 function loadGameSecure() {
-  const encrypted = localStorage.getItem('generala_secure_data');
-  if (encrypted) {
-    try {
-      const decrypted = JSON.parse(atob(encrypted));
-      app.jugadores = decrypted.names || [];
-      app.puntajes = decrypted.scores || {};
-      return true;
-    } catch (e) {
-      console.error("Error decrypting ", e);
-      return false;
-    }
-  }
-  return false;
+const encrypted = localStorage.getItem('generala_secure_data');
+if (encrypted) {
+try {
+const decrypted = JSON.parse(atob(encrypted));
+app.jugadores = decrypted.names || [];
+app.puntajes = decrypted.scores || {};
+return true;
+} catch (e) {
+console.error("Error decrypting ", e);
+return false;
 }
-
+}
+return false;
+}
 // ----------------- DATOS Y CONFIGURACIÓN -----------------
 const color_names = {
 "es": {"red": "Rojo", "blue": "Azul", "green": "Verde", "orange": "Naranja", "purple": "Púrpura", "brown": "Marrón", "magenta": "Magenta", "cyan": "Cian", "yellow": "Amarillo", "deeppink": "Rosa", "gold": "Dorado", "turquoise": "Turquesa", "silver": "Plateado", "black": "Negro"},
@@ -470,7 +657,8 @@ const color_names = {
 "pl": {"red": "Czerwony", "blue": "Niebieski", "green": "Zielony", "orange": "Pomarańczowy", "purple": "Fioletowy", "brown": "Brązowy", "magenta": "Magenta", "cyan": "Cyjan", "yellow": "Żółty", "deeppink": "Jasnoróżowy", "gold": "Złoty", "turquoise": "Turkusowy", "silver": "Srebrny", "black": "Czarny"},
 "vi": {"red": "Đỏ", "blue": "Xanh dương", "green": "Xanh lá", "orange": "Cam", "purple": "Tím", "brown": "Nâu", "magenta": "Magenta", "cyan": "Xanh lơ", "yellow": "Vàng", "deeppink": "Hồng đậm", "gold": "Vàng óng", "turquoise": "Xanh ngọc", "silver": "Bạc", "black": "Đen"},
 "nl": {"red": "Rood", "blue": "Blauw", "green": "Groen", "orange": "Oranje", "purple": "Paars", "brown": "Bruin", "magenta": "Magenta", "cyan": "Cyaan", "yellow": "Geel", "deeppink": "Diep Roze", "gold": "Goud", "turquoise": "Turkoois", "silver": "Zilver", "black": "Zwart"},
-"ro": {"red": "Roșu", "blue": "Albastru", "green": "Verde", "orange": "Portocaliu", "purple": "Mov", "brown": "Maro", "magenta": "Magenta", "cyan": "Cian", "yellow": "Galben", "deeppink": "Roz intens", "gold": "Auriu", "turquoise": "Turcoaz", "silver": "Argintiu", "black": "Negru"}
+"ro": {"red": "Roșu", "blue": "Albastru", "green": "Verde", "orange": "Portocaliu", "purple": "Mov", "brown": "Maro", "magenta": "Magenta", "cyan": "Cian", "yellow": "Galben", "deeppink": "Roz intens", "gold": "Auriu", "turquoise": "Turcoaz", "silver": "Argintiu", "black": "Negru"},
+"zh": {"red": "红色", "blue": "蓝色", "green": "绿色", "orange": "橙色", "purple": "紫色", "brown": "棕色", "magenta": "洋红色", "cyan": "青色", "yellow": "黄色", "deeppink": "深粉色", "gold": "金色", "turquoise": "绿松石色", "silver": "银色", "black": "黑色"}
 };
 const translations = {
 "es": {"home_welcome": "BIENVENIDOS AL ANOTADOR DE GENERALA", "home_title": "COMENZAR", "home_lang": "SELECCIONAR IDIOMA", "welcome": "Bienvenidos al Anotador de Generala", "player_name_hint": "Nombre del jugador", "new_game": "Nueva Partida", "load_game": "Cargar Partida", "back_to_menu": "Volver al Menú", "turn_of": "Turno de:", "select_color": "Seleccionar Color", "select_score": "Seleccionar Puntaje", "error": "Error", "choose_language": "Elegir Idioma", "confirm": "Confirmar", "confirm_turn": "¿Seguro que quieres anotar en {target} siendo turno de {current}?", "yes": "Sí", "no": "No", "max_players": "Máximo 10 jugadores.", "min_players": "Mínimo 2 jugadores.", "no_saved_game": "No hay partida guardada.", "category_header": "Categoría", "scratch": "Tachar", "end_game": "Fin del Juego", "winner_msg": "ha ganado!!"},
@@ -484,21 +672,23 @@ const translations = {
 "pl": {"home_welcome": "WITAMY W GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "WYBIERZ JĘZYK", "welcome": "Witamy w notatniku do Generala", "player_name_hint": "Imię gracza", "new_game": "Nowa Gra", "load_game": "Wczytaj Grę", "back_to_menu": "Powrót do Menu", "turn_of": "Ruch:", "select_color": "Wybierz kolor", "select_score": "Wybierz wynik", "error": "Błąd", "choose_language": "Wybierz język", "confirm": "Potwierdź", "confirm_turn": "Czy na pewno chcesz zanotować wynik dla {target}, podczas gdy kolej {current}?", "yes": "Tak", "no": "Nie", "max_players": "Maksymalnie 10 graczy.", "min_players": "Minimalnie 2 graczy.", "no_saved_game": "Nie znaleziono zapisanej gry.", "category_header": "Kategoria", "scratch": "Skreśl", "end_game": "Koniec Gry", "winner_msg": "wygrał!!"},
 "vi": {"home_welcome": "CHÀO MỪNG ĐẾN VỚI BẢNG ĐIỂM GENERALA", "home_title": "BẮT ĐẦU", "home_lang": "CHỌN NGÔN NGỮ", "welcome": "Chào mừng đến với Bảng Ghi Điểm Generala", "player_name_hint": "Tên người chơi", "new_game": "Trò chơi Mới", "load_game": "Tải Trò Chơi", "back_to_menu": "Quay lại Menu", "turn_of": "Lượt của:", "select_color": "Chọn Màu", "select_score": "Chọn Điểm số", "error": "Lỗi", "choose_language": "Chọn Ngôn ngữ", "confirm": "Xác nhận", "confirm_turn": "Bạn có chắc chắn muốn ghi điểm cho {target} trong khi đến lượt {current} không?", "yes": "Vâng", "no": "Không", "max_players": "Tối đa 10 người chơi.", "min_players": "Tối thiểu 2 người chơi.", "no_saved_game": "Không có trò chơi được lưu.", "category_header": "Loại", "scratch": "Xoá", "end_game": "Kết thúc trò chơi", "winner_msg": "đã thắng!!"},
 "nl": {"home_welcome": "WELKOM BIJ DE GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "TAAL SELECTEREN", "welcome": "Welkom bij de Generala Scorekeeper", "player_name_hint": "Spelersnaam", "new_game": "Nieuw Spel", "load_game": "Spel Laden", "back_to_menu": "Terug naar Menu", "turn_of": "Beurt van:", "select_color": "Selecteer Kleur", "select_score": "Selecteer Score", "error": "Fout", "choose_language": "Kies Taal", "confirm": "Bevestigen", "confirm_turn": "Weet je zeker dat je punten wilt noteren voor {target} terwijl het de beurt is van {current}?", "yes": "Ja", "no": "Nee", "max_players": "Maximaal 10 spelers.", "min_players": "Minimaal 2 spelers.", "no_saved_game": "Geen opgeslagen spel gevonden.", "category_header": "Categorie", "scratch": "Doorstrepen", "end_game": "Einde van het Spel", "winner_msg": "heeft gewonnen!!"},
-"ro": {"home_welcome": "BINE AȚI VENIT LA TABELUL DE SCOR GENERALA", "home_title": "PORNEȘTE", "home_lang": "SELECTEAZĂ LIMBA", "welcome": "Bine ați venit la Tabelul de Scor Generala", "player_name_hint": "Numele jucătorului", "new_game": "Joc Nou", "load_game": "Încarcă Joc", "back_to_menu": "Înapoi la Meniu", "turn_of": "Rândul lui:", "select_color": "Selectează Culoare", "select_score": "Selectează Scor", "error": "Eroare", "choose_language": "Alege Limba", "confirm": "Confirmă", "confirm_turn": "Ești sigur că vrei să notezi scorul la {target} în timp ce este rândul lui {current}?", "yes": "Da", "no": "Nu", "max_players": "Maximum 10 jucători.", "min_players": "Minimum 2 jucători.", "no_saved_game": "Niciun joc salvat găsit.", "category_header": "Categorie", "scratch": "Anulează", "end_game": "Sfârșitul Jocului", "winner_msg": "a câștigat!!"}
+"ro": {"home_welcome": "BINE AȚI VENIT LA TABELUL DE SCOR GENERALA", "home_title": "PORNEȘTE", "home_lang": "SELECTEAZĂ LIMBA", "welcome": "Bine ați venit la Tabelul de Scor Generala", "player_name_hint": "Numele jucătorului", "new_game": "Joc Nou", "load_game": "Încarcă Joc", "back_to_menu": "Înapoi la Meniu", "turn_of": "Rândul lui:", "select_color": "Selectează Culoare", "select_score": "Selectează Scor", "error": "Eroare", "choose_language": "Alege Limba", "confirm": "Confirmă", "confirm_turn": "Ești sigur că vrei să notezi scorul la {target} în timp ce este rândul lui {current}?", "yes": "Da", "no": "Nu", "max_players": "Maximum 10 jucători.", "min_players": "Minimum 2 jucători.", "no_saved_game": "Niciun joc salvat găsit.", "category_header": "Categorie", "scratch": "Anulează", "end_game": "Sfârșitul Jocului", "winner_msg": "a câștigat!!"},
+"zh": {"home_welcome": "欢迎使用GENERALA记分员", "home_title": "开始", "home_lang": "选择语言", "welcome": "欢迎使用Generala记分员", "player_name_hint": "玩家名称", "new_game": "新游戏", "load_game": "加载游戏", "back_to_menu": "返回菜单", "turn_of": "轮到：", "select_color": "选择颜色", "select_score": "选择分数", "error": "错误", "choose_language": "选择语言", "confirm": "确认", "confirm_turn": "您确定要为{target}记分，而轮到{current}？", "yes": "是", "no": "否", "max_players": "最多10名玩家。", "min_players": "最少2名玩家。", "no_saved_game": "未找到已保存的游戏。", "category_header": "类别", "scratch": "划掉", "end_game": "游戏结束", "winner_msg": "获胜！！"}
 };
 const categories_translations = {
-"es": ["1", "2", "3", "4", "5", "6", "Escalera", "Full", "Póker", "Generala", "2Gen"],
-"en": ["1", "2", "3", "4", "5", "6", "Straight", "Full House", "Poker", "Generala", "2Gen"],
-"pt": ["1", "2", "3", "4", "5", "6", "Escada", "Full", "Pôquer", "Generala", "2Gen"],
-"fr": ["1", "2", "3", "4", "5", "6", "Suite", "Full", "Poker", "Generala", "2Gen"],
-"id": ["1", "2", "3", "4", "5", "6", "Tangga", "Full", "Poker", "Generala", "2Gen"],
-"de": ["1", "2", "3", "4", "5", "6", "Straße", "Full House", "Poker", "Generala", "2Gen"],
-"tr": ["1", "2", "3", "4", "5", "6", "Düz", "Full", "Poker", "Generala", "2Gen"],
-"it": ["1", "2", "3", "4", "5", "6", "Scala", "Full", "Poker", "Generala", "2Gen"],
-"pl": ["1", "2", "3", "4", "5", "6", "Strit", "Full", "Poker", "Generala", "2Gen"],
-"vi": ["1", "2", "3", "4", "5", "6", "Dãy", "Full", "Poker", "Generala", "2Gen"],
-"nl": ["1", "2", "3", "4", "5", "6", "Straat", "Full House", "Poker", "Generala", "2Gen"],
-"ro": ["1", "2", "3", "4", "5", "6", "Scară", "Full", "Poker", "Generala", "2Gen"]
+"es": ["1", "2", "3", "4", "5", "6", "esc.", "full.", "pok.", "gen", "gen2"],
+"en": ["1", "2", "3", "4", "5", "6", "str.", "full.", "pok.", "gen", "gen2"],
+"pt": ["1", "2", "3", "4", "5", "6", "esc.", "full.", "pok.", "gen", "gen2"],
+"fr": ["1", "2", "3", "4", "5", "6", "suit.", "full.", "pok.", "gen", "gen2"],
+"id": ["1", "2", "3", "4", "5", "6", "tang.", "full.", "pok.", "gen", "gen2"],
+"de": ["1", "2", "3", "4", "5", "6", "str.", "full.", "pok.", "gen", "gen2"],
+"tr": ["1", "2", "3", "4", "5", "6", "düz.", "full.", "pok.", "gen", "gen2"],
+"it": ["1", "2", "3", "4", "5", "6", "scal.", "full.", "pok.", "gen", "gen2"],
+"pl": ["1", "2", "3", "4", "5", "6", "strit.", "full.", "pok.", "gen", "gen2"],
+"vi": ["1", "2", "3", "4", "5", "6", "dãy", "full.", "pok.", "gen", "gen2"],
+"nl": ["1", "2", "3", "4", "5", "6", "straat.", "full.", "pok.", "gen", "gen2"],
+"ro": ["1", "2", "3", "4", "5", "6", "scară", "full.", "pok.", "gen", "gen2"],
+"zh": ["1", "2", "3", "4", "5", "6", "顺.", "满.", "四.", "将.", "将2"]
 };
 const score_options = {
 "0": [0,1,2,3,4,5], "1": [0,2,4,6,8,10], "2": [0,3,6,9,12,15],
@@ -520,471 +710,596 @@ jugador_colores: ["red", "blue"],
 puntajes: {},
 current_turn: 0,
 dead_players: new Set(),
-victoria_mostrada: false
+victoria_mostrada: false,
+leader_idx: -1
 };
 // ----------------- UTILIDADES -----------------
 function getText(key) {
-  return (translations[app.lang] || translations["es"])[key] || key;
+return (translations[app.lang] || translations["es"])[key] || key;
 }
 function getCategories() {
-  return categories_translations[app.lang] || categories_translations["es"];
+return categories_translations[app.lang] || categories_translations["es"];
 }
 function abreviarNombre(nombre, num_players) {
-  if (!nombre) return "";
-  if (!isNaN(nombre)) return nombre;
-  if (nombre.startsWith("Jugador ")) {
-    let parts = nombre.split(" ", 2);
-    return parts.length > 1 ? "Juga " + parts[1] : nombre;
-  }
-  if (num_players < 8 && nombre.length > 11) {
-    return nombre.substring(0, 11);
-  }
-  return nombre;
+if (!nombre) return "";
+if (!isNaN(nombre)) return nombre;
+// Limitar a 9 caracteres máximo
+if (nombre.length > 9) {
+return nombre.substring(0, 9);
+}
+if (nombre.startsWith("Jugador ")) {
+let parts = nombre.split(" ", 2);
+return parts.length > 1 ? "Juga " + parts[1] : nombre;
+}
+return nombre;
 }
 function getHexColor(name) {
-  return hex_colors[name] || name;
+return hex_colors[name] || name;
 }
 // Función estricta de color de texto: BLANCO SOLO SI EL FONDO ES NEGRO
 function getTextColorForBg(bgKey) {
-  return (bgKey === "black") ? "white" : "black";
+return (bgKey === "black") ? "white" : "black";
 }
 // ----------------- NAVEGACIÓN -----------------
 function navTo(screenId) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId + '-screen').classList.add('active');
-  if (screenId === 'home') updateHomeText();
-  if (screenId === 'menu') updateMenuText();
-  if (screenId === 'language') initLangScreen();
-  if (screenId === 'anotador') updateAnotadorText();
+document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+document.getElementById(screenId + '-screen').classList.add('active');
+if (screenId === 'home') updateHomeText();
+if (screenId === 'menu') updateMenuText();
+if (screenId === 'language') initLangScreen();
+if (screenId === 'anotador') updateAnotadorText();
 }
 // ----------------- HOME LOGIC -----------------
 function updateHomeText() {
-  document.getElementById('lbl-home-welcome').innerText = getText('home_welcome');
-  document.getElementById('btn-home-start').innerText = getText('home_title');
-  document.getElementById('btn-home-lang').innerText = getText('home_lang');
+document.getElementById('lbl-home-welcome').innerText = getText('home_welcome');
+document.getElementById('btn-home-start').innerText = getText('home_title');
+document.getElementById('btn-home-lang').innerText = getText('home_lang');
 }
 // ----------------- LANGUAGE LOGIC -----------------
 function initLangScreen() {
-  document.getElementById('lbl-lang-title').innerText = getText('choose_language');
-  document.getElementById('btn-lang-back').innerText = getText('back_to_menu');
-  const container = document.getElementById('lang-grid-container');
-  container.innerHTML = "";
-  const idiomas = [
-    ["es", "Español"], ["en", "English"], ["pt", "Português"], ["fr", "Français"],
-    ["id", "Bahasa Indonesia"], ["de", "Deutsch"], ["tr", "Türkçe"], ["it", "Italiano"],
-    ["pl", "Polski"], ["vi", "Tiếng Việt"], ["nl", "Nederlands"], ["ro", "Română"]
-  ];
-  idiomas.forEach(([code, name]) => {
-    let btn = document.createElement('button');
-    btn.innerText = name;
-    btn.onclick = () => setLanguage(code);
-    container.appendChild(btn);
-  });
+document.getElementById('lbl-lang-title').innerText = getText('choose_language');
+document.getElementById('btn-lang-back').innerText = getText('back_to_menu');
+const container = document.getElementById('lang-grid-container');
+container.innerHTML = "";
+const idiomas = [
+["es", "Español"], ["en", "English"], ["pt", "Português"], ["fr", "Français"],
+["id", "Bahasa Indonesia"], ["de", "Deutsch"], ["tr", "Türkçe"], ["it", "Italiano"],
+["pl", "Polski"], ["vi", "Tiếng Việt"], ["nl", "Nederlands"], ["ro", "Română"],
+["zh", "中文"]
+];
+idiomas.forEach(([code, name]) => {
+let btn = document.createElement('button');
+btn.innerText = name;
+btn.onclick = () => setLanguage(code);
+container.appendChild(btn);
+});
 }
 function setLanguage(code) {
-  app.lang = code;
-  app.jugadores = app.jugadores.map(() => "");
-  app.jugador_colores = app.jugador_colores.slice(0, app.jugadores.length);
-  resetPlayersUI();
-  navTo('home');
+app.lang = code;
+app.jugadores = app.jugadores.map(() => "");
+app.jugador_colores = app.jugador_colores.slice(0, app.jugadores.length);
+resetPlayersUI();
+navTo('home');
 }
 // ----------------- MENU LOGIC -----------------
 let playerWidgets = [];
 function updateMenuText() {
-  document.getElementById('lbl-menu-welcome').innerText = getText('welcome');
-  document.getElementById('btn-new-game').innerText = getText('new_game');
-  document.getElementById('btn-load-game').innerText = getText('load_game');
-  document.getElementById('btn-menu-back').innerText = getText('back_to_menu');
-  document.querySelectorAll('.player-name-input').forEach(i => i.placeholder = getText('player_name_hint'));
-  playerWidgets.forEach((w, idx) => {
-    updateColorButton(w.btn, app.jugador_colores[idx]);
-  });
+document.getElementById('lbl-menu-welcome').innerText = getText('welcome');
+document.getElementById('btn-new-game').innerText = getText('new_game');
+document.getElementById('btn-load-game').innerText = getText('load_game');
+document.getElementById('btn-menu-back').innerText = getText('back_to_menu');
+document.querySelectorAll('.player-name-input').forEach(i => i.placeholder = getText('player_name_hint'));
+playerWidgets.forEach((w, idx) => {
+updateColorButton(w.btn, app.jugador_colores[idx]);
+});
 }
 function resetPlayersUI() {
-  document.getElementById('players-container').innerHTML = "";
-  playerWidgets = [];
-  if(app.jugadores.length === 0) {
-    app.jugadores = ["", ""];
-    app.jugador_colores = ["red", "blue"];
-  }
-  for (let i=0; i<app.jugadores.length; i++) {
-    createPlayerWidgetRow(i);
-  }
+document.getElementById('players-container').innerHTML = "";
+playerWidgets = [];
+if(app.jugadores.length === 0) {
+app.jugadores = ["", ""];
+app.jugador_colores = ["red", "blue"];
+}
+for (let i=0; i<app.jugadores.length; i++) {
+createPlayerWidgetRow(i);
+}
 }
 function createPlayerWidgetRow(idx) {
-  const container = document.getElementById('players-container');
-  const row = document.createElement('div');
-  row.className = 'player-row';
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.className = 'player-name-input';
-  input.placeholder = getText('player_name_hint');
-  input.value = app.jugadores[idx];
-  input.oninput = (e) => app.jugadores[idx] = e.target.value;
-  const btnColor = document.createElement('button');
-  btnColor.className = 'color-btn';
-  updateColorButton(btnColor, app.jugador_colores[idx]);
-  btnColor.onclick = () => openColorSelector(idx, btnColor);
-  row.appendChild(input);
-  row.appendChild(btnColor);
-  container.appendChild(row);
-  playerWidgets[idx] = { row, input, btn: btnColor };
+const container = document.getElementById('players-container');
+const row = document.createElement('div');
+row.className = 'player-row';
+const input = document.createElement('input');
+input.type = 'text';
+input.className = 'player-name-input';
+input.placeholder = getText('player_name_hint');
+input.value = app.jugadores[idx];
+input.oninput = (e) => app.jugadores[idx] = e.target.value;
+const btnColor = document.createElement('button');
+btnColor.className = 'color-btn';
+updateColorButton(btnColor, app.jugador_colores[idx]);
+btnColor.onclick = () => openColorSelector(idx, btnColor);
+row.appendChild(input);
+row.appendChild(btnColor);
+container.appendChild(row);
+playerWidgets[idx] = { row, input, btn: btnColor };
 }
 function updateColorButton(btn, colorKey) {
-  let colorName = (color_names[app.lang] || color_names["es"])[colorKey] || colorKey;
-  btn.innerText = colorName;
-  btn.style.background = getHexColor(colorKey); // Override gradient
-  // LOGICA ESTRICTA: Negro para todos, Blanco solo para fondo Negro
-  btn.style.color = getTextColorForBg(colorKey);
-  // Ajustar borde para que se vea bien con el color plano
-  btn.style.border = "2px solid rgba(0,0,0,0.2)";
+let colorName = (color_names[app.lang] || color_names["es"])[colorKey] || colorKey;
+btn.innerText = colorName;
+btn.style.background = getHexColor(colorKey); // Override gradient
+// LOGICA ESTRICTA: Negro para todos, Blanco solo para fondo Negro
+btn.style.color = getTextColorForBg(colorKey);
+// Ajustar borde para que se vea bien con el color plano
+btn.style.border = "2px solid rgba(0,0,0,0.2)";
 }
 function addPlayerWidget() {
-  if (app.jugadores.length >= 10) {
-    showPopup(getText('error'), getText('max_players'));
-    return;
-  }
-  app.jugadores.push("");
-  let availableColors = Object.keys(color_names[app.lang] || color_names["es"]);
-  let newColor = availableColors[app.jugadores.length % availableColors.length];
-  app.jugador_colores.push(newColor);
-  createPlayerWidgetRow(app.jugadores.length - 1);
+if (app.jugadores.length >= 10) {
+showPopup(getText('error'), getText('max_players'));
+return;
+}
+app.jugadores.push("");
+let availableColors = Object.keys(color_names[app.lang] || color_names["es"]);
+let newColor = availableColors[app.jugadores.length % availableColors.length];
+app.jugador_colores.push(newColor);
+createPlayerWidgetRow(app.jugadores.length - 1);
 }
 function removePlayerWidget() {
-  if (app.jugadores.length <= 2) {
-    showPopup(getText('error'), getText('min_players'));
-    return;
-  }
-  let idx = app.jugadores.length - 1;
-  let w = playerWidgets[idx];
-  w.row.remove();
-  playerWidgets.pop();
-  app.jugadores.pop();
-  app.jugador_colores.pop();
+if (app.jugadores.length <= 2) {
+showPopup(getText('error'), getText('min_players'));
+return;
+}
+let idx = app.jugadores.length - 1;
+let w = playerWidgets[idx];
+w.row.remove();
+playerWidgets.pop();
+app.jugadores.pop();
+app.jugador_colores.pop();
 }
 function openColorSelector(playerIdx, btnElement) {
-  const content = document.createElement('div');
-  content.className = 'grid-colors';
-  let colors = color_names[app.lang] || color_names["es"];
-  Object.keys(colors).forEach(k => {
-    let b = document.createElement('button');
-    b.innerText = colors[k];
-    b.style.background = getHexColor(k);
-    // LOGICA ESTRICTA TAMBIEN EN POPUP
-    b.style.color = getTextColorForBg(k);
-    b.style.border = "1px solid #555";
-    b.style.fontSize = "0.9rem";
-    b.onclick = () => {
-      app.jugador_colores[playerIdx] = k;
-      updateColorButton(btnElement, k);
-      closeModal();
-    };
-    content.appendChild(b);
-  });
-  showCustomModal(getText('select_color'), content);
+const content = document.createElement('div');
+content.className = 'grid-colors';
+let colors = color_names[app.lang] || color_names["es"];
+Object.keys(colors).forEach(k => {
+let b = document.createElement('button');
+b.innerText = colors[k];
+b.style.background = getHexColor(k);
+// LOGICA ESTRICTA TAMBIEN EN POPUP
+b.style.color = getTextColorForBg(k);
+b.style.border = "1px solid #555";
+b.style.fontSize = "0.9rem";
+b.onclick = () => {
+app.jugador_colores[playerIdx] = k;
+updateColorButton(btnElement, k);
+closeModal();
+};
+content.appendChild(b);
+});
+showCustomModal(getText('select_color'), content);
 }
 // ----------------- GAME START / LOAD -----------------
 function startGame() {
-  for(let i=0; i<app.jugadores.length; i++) {
-    let raw = app.jugadores[i].trim();
-    if (!raw) raw = (i+1).toString();
-    app.jugadores[i] = abreviarNombre(raw, app.jugadores.length);
-  }
-  app.current_turn = 0;
-  app.puntajes = {};
-  app.victoria_mostrada = false;
-  app.dead_players = new Set();
-  buildTable();
-  navTo('anotador');
-  updateTurnLabel();
+for(let i=0; i<app.jugadores.length; i++) {
+let raw = app.jugadores[i].trim();
+if (!raw) raw = (i+1).toString();
+app.jugadores[i] = abreviarNombre(raw, app.jugadores.length);
+}
+app.current_turn = 0;
+app.puntajes = {};
+app.victoria_mostrada = false;
+app.dead_players = new Set();
+buildTable();
+navTo('anotador');
+updateTurnLabel();
+updateLeaderCrown();
 }
 function loadGame() {
-  let saved = localStorage.getItem('generala_secure_data');
-  if (!saved) {
-    showPopup(getText('error'), getText('no_saved_game'));
-    return;
-  }
-  if (loadGameSecure()) {
-    resetPlayersUI();
-    app.jugadores.forEach((n, i) => {
-      if(playerWidgets[i]) playerWidgets[i].input.value = n;
-    });
-    navTo('anotador');
-    buildTable();
-    Object.keys(app.puntajes).forEach(key => {
-      let cell = document.getElementById('cell-' + key);
-      if(cell) cell.innerText = app.puntajes[key];
-    });
-    updateTotals();
-    checkVictory();
-    app.current_turn = 0;
-    updateTurnLabel();
-  }
+let saved = localStorage.getItem('generala_secure_data');
+if (!saved) {
+showPopup(getText('error'), getText('no_saved_game'));
+return;
+}
+if (loadGameSecure()) {
+resetPlayersUI();
+app.jugadores.forEach((n, i) => {
+if(playerWidgets[i]) playerWidgets[i].input.value = n;
+});
+navTo('anotador');
+buildTable();
+Object.keys(app.puntajes).forEach(key => {
+let cell = document.getElementById('cell-' + key);
+if(cell) cell.innerText = app.puntajes[key];
+});
+updateTotals();
+updateLeaderCrown();
+checkVictory();
+app.current_turn = 0;
+updateTurnLabel();
+}
 }
 function saveGame() {
-  saveGameSecure();
+saveGameSecure();
 }
 // ----------------- ANOTADOR LOGIC -----------------
 function updateAnotadorText() {
-  document.getElementById('btn-anotador-back').innerText = getText('back_to_menu');
-  updateTurnLabel();
+document.getElementById('btn-anotador-back').innerText = getText('back_to_menu');
+updateTurnLabel();
 }
 function updateTurnLabel() {
-  if(app.jugadores[app.current_turn]) {
-    document.getElementById('turn-label').innerText = getText('turn_of') + " " + app.jugadores[app.current_turn];
-  }
+if(app.jugadores[app.current_turn]) {
+document.getElementById('turn-label').innerText = getText('turn_of') + " " + app.jugadores[app.current_turn];
+}
 }
 function buildTable() {
-  const grid = document.getElementById('score-grid');
-  grid.innerHTML = "";
-  const cats = getCategories();
-  const catsFull = [...cats, "Total"];
-  const numPlayers = app.jugadores.length;
-  grid.style.gridTemplateColumns = `1.4fr repeat(${numPlayers}, 1fr)`;
-  // Header Corner
-  let corner = document.createElement('div');
-  corner.className = 'cell header-col';
-  corner.innerText = getText('category_header');
-  grid.appendChild(corner);
-  // Header Players
-  app.jugadores.forEach((p, i) => {
-    let pc = document.createElement('div');
-    pc.className = 'cell';
-    pc.innerText = p;
-    let cKey = app.jugador_colores[i];
-    pc.style.backgroundColor = getHexColor(cKey);
-    // LOGICA ESTRICTA EN HEADER
-    pc.style.color = getTextColorForBg(cKey);
-    pc.id = 'header-p-' + i;
-    pc.dataset.originalColor = cKey; // Guardar color original para lógica de eliminados
-    grid.appendChild(pc);
-  });
-  // Rows
-  catsFull.forEach((catName, rIdx) => {
-    // Category Label
-    let cLabel = document.createElement('div');
-    cLabel.className = 'cell header-col';
-    cLabel.innerText = catName;
-    let rowBgColor = (rIdx % 2 === 0) ? 'var(--color-row1)' : 'var(--color-row2)';
-    cLabel.style.backgroundColor = rowBgColor;
-    grid.appendChild(cLabel);
-    // Player Cells
-    for(let p=0; p<numPlayers; p++) {
-      let cellDiv = document.createElement('div');
-      cellDiv.className = 'cell';
-      let cKey = app.jugador_colores[p];
-      let cellBg = getHexColor(cKey);
-      // LOGICA ESTRICTA EN CELDAS
-      let cellTxt = getTextColorForBg(cKey);
-      cellDiv.style.backgroundColor = cellBg;
-      cellDiv.style.color = cellTxt;
-      cellDiv.dataset.originalColor = cKey;
-      if (catName === "Total") {
-        cellDiv.id = `total-${p}`;
-        cellDiv.innerText = "0";
-      } else {
-        let btn = document.createElement('button');
-        btn.className = 'cell-btn';
-        btn.id = `cell-${p}-${rIdx}`;
-        btn.innerText = "0";
-        btn.onclick = () => selectScore(p, rIdx.toString());
-        cellDiv.appendChild(btn);
-      }
-      grid.appendChild(cellDiv);
-    }
-  });
+const grid = document.getElementById('score-grid');
+grid.innerHTML = "";
+const cats = getCategories();
+const catsFull = [...cats, "Total"];
+const numPlayers = app.jugadores.length;
+grid.style.gridTemplateColumns = `1.4fr repeat(${numPlayers}, 1fr)`;
+// Header Corner
+let corner = document.createElement('div');
+corner.className = 'cell header-col';
+corner.innerText = getText('category_header');
+grid.appendChild(corner);
+// Header Players
+app.jugadores.forEach((p, i) => {
+let pc = document.createElement('div');
+pc.className = 'cell';
+pc.innerText = p;
+let cKey = app.jugador_colores[i];
+pc.style.backgroundColor = getHexColor(cKey);
+// LOGICA ESTRICTA EN HEADER
+pc.style.color = getTextColorForBg(cKey);
+pc.id = 'header-p-' + i;
+pc.dataset.originalColor = cKey; // Guardar color original para lógica de eliminados
+pc.style.position = 'relative';
+grid.appendChild(pc);
+});
+// Rows
+catsFull.forEach((catName, rIdx) => {
+// Category Label
+let cLabel = document.createElement('div');
+cLabel.className = 'cell header-col';
+cLabel.innerText = catName;
+let rowBgColor = (rIdx % 2 === 0) ? 'var(--color-row1)' : 'var(--color-row2)';
+cLabel.style.backgroundColor = rowBgColor;
+grid.appendChild(cLabel);
+// Player Cells
+for(let p=0; p<numPlayers; p++) {
+let cellDiv = document.createElement('div');
+cellDiv.className = 'cell';
+let cKey = app.jugador_colores[p];
+let cellBg = getHexColor(cKey);
+// LOGICA ESTRICTA EN CELDAS
+let cellTxt = getTextColorForBg(cKey);
+cellDiv.style.backgroundColor = cellBg;
+cellDiv.style.color = cellTxt;
+cellDiv.dataset.originalColor = cKey;
+if (catName === "Total") {
+cellDiv.id = `total-${p}`;
+cellDiv.innerText = "0";
+} else {
+let btn = document.createElement('button');
+btn.className = 'cell-btn';
+btn.id = `cell-${p}-${rIdx}`;
+btn.innerText = "0";
+btn.onclick = () => selectScore(p, rIdx.toString());
+cellDiv.appendChild(btn);
+}
+grid.appendChild(cellDiv);
+}
+});
 }
 function selectScore(playerIdx, catKey) {
-  if (playerIdx !== app.current_turn) {
-    let target = app.jugadores[playerIdx];
-    let current = app.jugadores[app.current_turn];
-    let msg = getText('confirm_turn').replace('{target}', target).replace('{current}', current);
-    showConfirm(msg, () => openScorePopup(playerIdx, catKey));
-  } else {
-    openScorePopup(playerIdx, catKey);
-  }
+if (playerIdx !== app.current_turn) {
+let target = app.jugadores[playerIdx];
+let current = app.jugadores[app.current_turn];
+let msg = getText('confirm_turn').replace('{target}', target).replace('{current}', current);
+showConfirm(msg, () => openScorePopup(playerIdx, catKey));
+} else {
+openScorePopup(playerIdx, catKey);
+}
 }
 function openScorePopup(playerIdx, catKey) {
-  let cats = getCategories();
-  let catName = cats[parseInt(catKey)] || "?";
-  let title = `${app.jugadores[playerIdx]} - ${catName}`;
-  let pts = score_options[catKey] || [0,1,2,3];
-  let scratch = getText('scratch');
-  let content = document.createElement('div');
-  content.className = 'grid-scores';
-  [...pts, "X"].forEach(val => {
-    let b = document.createElement('button');
-    b.className = 'score-val-btn';
-    let displayVal = (val === "X") ? scratch : val;
-    b.innerText = (val === "X") ? "X" : val;
-    if (val === "X") b.innerText = "X";
-    b.onclick = () => confirmScore(playerIdx, catKey, (val === "X" ? "X" : val.toString()));
-    content.appendChild(b);
-  });
-  showCustomModal(getText('select_score') + ": " + title, content);
+let cats = getCategories();
+let catName = cats[parseInt(catKey)] || "?";
+let title = `${app.jugadores[playerIdx]} - ${catName}`;
+let pts = score_options[catKey] || [0,1,2,3];
+let scratch = getText('scratch');
+let content = document.createElement('div');
+content.className = 'grid-scores';
+[...pts, "X"].forEach(val => {
+let b = document.createElement('button');
+b.className = 'score-val-btn';
+let displayVal = (val === "X") ? scratch : val;
+b.innerText = (val === "X") ? "X" : val;
+if (val === "X") b.innerText = "X";
+b.onclick = () => confirmScore(playerIdx, catKey, (val === "X" ? "X" : val.toString()));
+content.appendChild(b);
+});
+showCustomModal(getText('select_score') + ": " + title, content);
 }
 function confirmScore(playerIdx, catKey, val) {
-  closeModal();
-  let cellBtn = document.getElementById(`cell-${playerIdx}-${catKey}`);
-  let prev = cellBtn.innerText;
-  cellBtn.innerText = val;
-  app.puntajes[`${playerIdx}-${catKey}`] = val;
-  updateTotals();
-  saveGame();
-  checkVictory();
-  if (playerIdx === app.current_turn && prev === "0" && val !== "0") {
-    let totalP = app.jugadores.length;
-    let next = (playerIdx + 1) % totalP;
-    while (app.dead_players.has(next)) {
-      next = (next + 1) % totalP;
-      if (next === playerIdx) break;
-    }
-    app.current_turn = next;
-    updateTurnLabel();
-  }
+closeModal();
+let cellBtn = document.getElementById(`cell-${playerIdx}-${catKey}`);
+let prev = cellBtn.innerText;
+cellBtn.innerText = val;
+app.puntajes[`${playerIdx}-${catKey}`] = val;
+updateTotals();
+updateLeaderCrown();
+saveGame();
+checkVictory();
+if (playerIdx === app.current_turn && prev === "0" && val !== "0") {
+let totalP = app.jugadores.length;
+let next = (playerIdx + 1) % totalP;
+while (app.dead_players.has(next)) {
+next = (next + 1) % totalP;
+if (next === playerIdx) break;
+}
+app.current_turn = next;
+updateTurnLabel();
+}
 }
 function updateTotals() {
-  let numCats = getCategories().length;
-  for(let j=0; j<app.jugadores.length; j++) {
-    let total = 0;
-    for(let i=0; i<numCats; i++) {
-      let val = app.puntajes[`${j}-${i}`];
-      if (val && val !== "X") {
-        total += parseInt(val);
-      }
-    }
-    let totalCell = document.getElementById(`total-${j}`);
-    if(totalCell) {
-      totalCell.innerText = total;
-      app.puntajes[`${j}-${numCats}`] = total.toString();
-    }
-  }
+let numCats = getCategories().length;
+for(let j=0; j<app.jugadores.length; j++) {
+let total = 0;
+for(let i=0; i<numCats; i++) {
+let val = app.puntajes[`${j}-${i}`];
+if (val && val !== "X") {
+total += parseInt(val);
+}
+}
+let totalCell = document.getElementById(`total-${j}`);
+if(totalCell) {
+totalCell.innerText = total;
+app.puntajes[`${j}-${numCats}`] = total.toString();
+}
+}
+}
+function updateLeaderCrown() {
+// Remover coronas existentes
+document.querySelectorAll('.leader-crown').forEach(el => el.remove());
+let numCats = getCategories().length;
+let highestScore = -1;
+let leaders = [];
+// Encontrar el puntaje más alto
+for(let j=0; j<app.jugadores.length; j++) {
+if (app.dead_players.has(j)) continue; // Ignorar jugadores eliminados
+let score = parseInt(app.puntajes[`${j}-${numCats}`] || "0");
+if (score > highestScore) {
+highestScore = score;
+leaders = [j];
+} else if (score === highestScore && score > 0) {
+leaders.push(j);
+}
+}
+// Agregar corona a cada líder (en caso de empate)
+leaders.forEach(leaderIdx => {
+let header = document.getElementById(`header-p-${leaderIdx}`);
+if (header) {
+let crown = document.createElement('div');
+crown.className = 'leader-crown';
+crown.innerHTML = '👑';
+header.appendChild(crown);
+}
+});
 }
 function checkVictory() {
-  app.dead_players.clear();
-  let numCats = getCategories().length;
-  let best = 0;
-  for(let j=0; j<app.jugadores.length; j++) {
-    let s = parseInt(app.puntajes[`${j}-${numCats}`] || "0");
-    if (s > best) best = s;
-  }
-  for(let j=0; j<app.jugadores.length; j++) {
-    let currentScore = parseInt(app.puntajes[`${j}-${numCats}`] || "0");
-    let maxRemaining = 0;
-    for(let i=0; i<numCats; i++) {
-      let val = app.puntajes[`${j}-${i}`];
-      if (!val || val === "0") {
-        maxRemaining += max_points_map[i];
-      }
-    }
-    // Lógica de eliminación
-    if ((currentScore + maxRemaining) < best) {
-      app.dead_players.add(j);
-      applyDeadStyle(j, true);
-    } else {
-      applyDeadStyle(j, false);
-    }
-  }
-  let vivos = app.jugadores.map((_, i) => i).filter(i => !app.dead_players.has(i));
-  if (vivos.length === 1 && !app.victoria_mostrada) {
-    app.victoria_mostrada = true;
-    let winnerIdx = vivos[0];
-    let msg = `¡${app.jugadores[winnerIdx]} ${getText('winner_msg')}`;
-    showPopup(getText('end_game'), msg);
-  }
+app.dead_players.clear();
+let numCats = getCategories().length;
+let best = 0;
+for(let j=0; j<app.jugadores.length; j++) {
+let s = parseInt(app.puntajes[`${j}-${numCats}`] || "0");
+if (s > best) best = s;
+}
+for(let j=0; j<app.jugadores.length; j++) {
+let currentScore = parseInt(app.puntajes[`${j}-${numCats}`] || "0");
+let maxRemaining = 0;
+for(let i=0; i<numCats; i++) {
+let val = app.puntajes[`${j}-${i}`];
+if (!val || val === "0") {
+maxRemaining += max_points_map[i];
+}
+}
+// Lógica de eliminación
+if ((currentScore + maxRemaining) < best) {
+app.dead_players.add(j);
+applyDeadStyle(j, true);
+} else {
+applyDeadStyle(j, false);
+}
+}
+let vivos = app.jugadores.map((_, i) => i).filter(i => !app.dead_players.has(i));
+if (vivos.length === 1 && !app.victoria_mostrada) {
+app.victoria_mostrada = true;
+let winnerIdx = vivos[0];
+// showPopup(getText('end_game'), `¡${app.jugadores[winnerIdx]} ${getText('winner_msg')}`);
+showWinnerAnimation(winnerIdx);
+}
 }
 function applyDeadStyle(playerIdx, isDead) {
-  // Determinar tipo de línea según color original
-  // Si el jugador era NEGRO -> Línea BLANCA
-  // Si el jugador era cualquier otro -> Línea NEGRA
-  const originalColor = app.jugador_colores[playerIdx];
-  const lineClass = (originalColor === 'black') ? 'dead-line-white' : 'dead-line-black';
-  // Elementos a afectar: Header, Total y Celdas
-  const elements = [];
-  elements.push(document.getElementById(`header-p-${playerIdx}`));
-  elements.push(document.getElementById(`total-${playerIdx}`));
-  let numCats = getCategories().length;
-  for(let i=0; i<numCats; i++) {
-    let btn = document.getElementById(`cell-${playerIdx}-${i}`);
-    if(btn) elements.push(btn.parentElement);
-  }
-  elements.forEach(el => {
-    if(!el) return;
-    if(isDead) {
-      el.classList.add('dead-cell');
-      el.classList.add(lineClass);
-    } else {
-      el.classList.remove('dead-cell');
-      el.classList.remove('dead-line-black');
-      el.classList.remove('dead-line-white');
-    }
-  });
+// Determinar tipo de línea según color original
+// Si el jugador era NEGRO -> Línea BLANCA
+// Si el jugador era cualquier otro -> Línea NEGRA
+const originalColor = app.jugador_colores[playerIdx];
+const lineClass = (originalColor === 'black') ? 'dead-line-white' : 'dead-line-black';
+// Elementos a afectar: Header, Total y Celdas
+const elements = [];
+elements.push(document.getElementById(`header-p-${playerIdx}`));
+elements.push(document.getElementById(`total-${playerIdx}`));
+let numCats = getCategories().length;
+for(let i=0; i<numCats; i++) {
+let btn = document.getElementById(`cell-${playerIdx}-${i}`);
+if(btn) elements.push(btn.parentElement);
+}
+elements.forEach(el => {
+if(!el) return;
+if(isDead) {
+el.classList.add('dead-cell');
+el.classList.add(lineClass);
+} else {
+el.classList.remove('dead-cell');
+el.classList.remove('dead-line-black');
+el.classList.remove('dead-line-white');
+}
+// Remover corona si está eliminado
+if(isDead) {
+let crown = el.querySelector('.leader-crown');
+if(crown) crown.remove();
+}
+});
 }
 // ----------------- POPUP SYSTEM -----------------
 function showPopup(title, bodyText) {
-  document.getElementById('modal-title').innerText = title;
-  document.getElementById('modal-body').innerHTML = "";
-  let p = document.createElement('p');
-  p.innerText = bodyText;
-  document.getElementById('modal-body').appendChild(p);
-  let btnBox = document.getElementById('modal-buttons');
-  btnBox.innerHTML = '<button onclick="closeModal()">OK</button>';
-  document.getElementById('modal-generic').style.display = 'flex';
+document.getElementById('modal-title').innerText = title;
+document.getElementById('modal-body').innerHTML = "";
+let p = document.createElement('p');
+p.innerText = bodyText;
+document.getElementById('modal-body').appendChild(p);
+let btnBox = document.getElementById('modal-buttons');
+btnBox.innerHTML = '<button onclick="closeModal()">OK</button>';
+document.getElementById('modal-generic').style.display = 'flex';
 }
 function showConfirm(text, onYes) {
-  document.getElementById('modal-title').innerText = getText('confirm');
-  document.getElementById('modal-body').innerText = text;
-  let btnBox = document.getElementById('modal-buttons');
-  btnBox.innerHTML = "";
-  let bYes = document.createElement('button');
-  bYes.innerText = getText('yes');
-  bYes.onclick = () => { closeModal(); onYes(); };
-  let bNo = document.createElement('button');
-  bNo.innerText = getText('no');
-  bNo.onclick = closeModal;
-  btnBox.appendChild(bYes);
-  btnBox.appendChild(bNo);
-  document.getElementById('modal-generic').style.display = 'flex';
+document.getElementById('modal-title').innerText = getText('confirm');
+document.getElementById('modal-body').innerText = text;
+let btnBox = document.getElementById('modal-buttons');
+btnBox.innerHTML = "";
+let bYes = document.createElement('button');
+bYes.innerText = getText('yes');
+bYes.onclick = () => { closeModal(); onYes(); };
+let bNo = document.createElement('button');
+bNo.innerText = getText('no');
+bNo.onclick = closeModal;
+btnBox.appendChild(bYes);
+btnBox.appendChild(bNo);
+document.getElementById('modal-generic').style.display = 'flex';
 }
 function showCustomModal(title, contentElement) {
-  document.getElementById('modal-title').innerText = title;
-  let body = document.getElementById('modal-body');
-  body.innerHTML = "";
-  body.appendChild(contentElement);
-  document.getElementById('modal-buttons').innerHTML = '<button onclick="closeModal()">Cancelar</button>';
-  document.getElementById('modal-generic').style.display = 'flex';
+document.getElementById('modal-title').innerText = title;
+let body = document.getElementById('modal-body');
+body.innerHTML = "";
+body.appendChild(contentElement);
+document.getElementById('modal-buttons').innerHTML = '<button onclick="closeModal()">Cancelar</button>';
+document.getElementById('modal-generic').style.display = 'flex';
 }
 function closeModal() {
-  document.getElementById('modal-generic').style.display = 'none';
+document.getElementById('modal-generic').style.display = 'none';
+}
+// ----------------- ANIMACIÓN DE VICTORIA -----------------
+function showWinnerAnimation(winnerIdx) {
+// Crear overlay brillante
+let overlay = document.createElement('div');
+overlay.id = 'winner-overlay';
+let winnerName = app.jugadores[winnerIdx];
+// Texto del ganador
+let winnerTitle = document.createElement('h1');
+winnerTitle.className = 'winner-title';
+winnerTitle.innerHTML = `¡${winnerName} ${getText('winner_msg')}!`;
+// Mensaje adicional
+let message = document.createElement('div');
+message.className = 'winner-message';
+message.innerHTML = "¡Felicitaciones al campeón!";
+// Contenedor de partículas
+let particlesContainer = document.createElement('div');
+particlesContainer.className = 'particles-container';
+// Botón para cerrar
+let closeButton = document.createElement('button');
+closeButton.className = 'close-btn';
+closeButton.innerText = 'Volver al Menú';
+closeButton.onclick = function() {
+document.body.removeChild(overlay);
+navTo('menu');
+};
+overlay.appendChild(winnerTitle);
+overlay.appendChild(message);
+overlay.appendChild(particlesContainer);
+overlay.appendChild(closeButton);
+document.body.appendChild(overlay);
+// Crear partículas brillantes
+createParticles(particlesContainer);
+// Añadir efecto de brillo adicional
+setTimeout(() => {
+winnerTitle.style.textShadow = '0 0 15px rgba(255,215,0,1), 0 0 30px rgba(255,215,0,0.9), 0 0 45px rgba(255,215,0,0.8)';
+}, 500);
+}
+function createParticles(container) {
+const colors = ['#FFD700', '#FFA500', '#FFFFFF', '#FFFFE0', '#FFC0CB'];
+const totalParticles = 80;
+for (let i = 0; i < totalParticles; i++) {
+let particle = document.createElement('div');
+particle.style.position = 'absolute';
+particle.style.width = Math.random() * 15 + 5 + 'px';
+particle.style.height = particle.style.width;
+particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+particle.style.borderRadius = '50%';
+particle.style.boxShadow = '0 0 10px ' + colors[Math.floor(Math.random() * colors.length)];
+particle.style.opacity = Math.random() * 0.8 + 0.2;
+// Posición aleatoria fuera de la pantalla
+let side = Math.floor(Math.random() * 4); // 0:arriba, 1:derecha, 2:abajo, 3:izquierda
+let posX, posY;
+switch(side) {
+case 0: // arriba
+posX = Math.random() * 100 + '%';
+posY = '-20px';
+break;
+case 1: // derecha
+posX = '105%';
+posY = Math.random() * 100 + '%';
+break;
+case 2: // abajo
+posX = Math.random() * 100 + '%';
+posY = '105%';
+break;
+default: // izquierda
+posX = '-20px';
+posY = Math.random() * 100 + '%';
+}
+particle.style.left = posX;
+particle.style.top = posY;
+// Animación
+let duration = Math.random() * 3 + 2;
+let delay = Math.random() * 2;
+particle.style.animation = `sparkle ${duration}s ease-in-out forwards ${delay}s`;
+container.appendChild(particle);
+// Eliminar partícula después de la animación
+setTimeout(() => {
+if (particle.parentNode) {
+particle.parentNode.removeChild(particle);
+}
+// Recrear partícula
+setTimeout(() => {
+createParticles(container);
+}, Math.random() * 2000);
+}, (duration + delay) * 1000);
+}
 }
 // Inicializar Home
 resetPlayersUI();
 updateHomeText();
-
 // Forzar HTTPS en producción
-if (window.location.protocol !== 'https:' && 
-    window.location.hostname !== 'localhost' && 
-    window.location.hostname !== '127.0.0.1') {
-  window.location.protocol = 'https:';
+if (window.location.protocol !== 'https:' &&
+window.location.hostname !== 'localhost' &&
+window.location.hostname !== '127.0.0.1') {
+window.location.protocol = 'https:';
 }
-
 // ----------------- INICIALIZACIÓN -----------------
 // Llamar a la función para verificar autenticación al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
-  checkAuthentication();
-  
-  // Registrar service worker para PWA
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          console.log('ServiceWorker registrado con éxito:', registration.scope);
-        })
-        .catch(error => {
-          console.log('Error registrando ServiceWorker:', error);
-        });
-    });
-  }
+checkAuthentication();
+// Registrar service worker para PWA
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => {
+navigator.serviceWorker.register('/sw.js')
+.then(registration => {
+console.log('ServiceWorker registrado con éxito:', registration.scope);
+})
+.catch(error => {
+console.log('Error registrando ServiceWorker:', error);
+});
+});
+}
 });
 </script>
 </body>
