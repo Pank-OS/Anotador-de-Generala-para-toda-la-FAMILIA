@@ -21,8 +21,8 @@
 --color-row1: #C0C0C0;
 --color-row2: #FFFFFF;
 --color-bordo: #800000;       /* Color eliminación */
---color-error: #D4AF37;       /* Dorado antiguo para errores */
 --color-gold: #D4AF37;        /* Dorado antiguo */
+--color-error: #D4AF37;       /* Dorado antiguo para errores */
 --color-beige: #F5F5DC;       /* Beige para botones */
 }
 * {
@@ -146,6 +146,15 @@ padding: 10px;
 border-radius: 8px;
 border: 2px solid #654321;
 }
+/* Contenedor con scroll horizontal para la tabla */
+.score-container {
+flex: 1;
+overflow-x: auto;
+position: relative;
+box-shadow: 0 0 10px rgba(0,0,0,0.3);
+border-radius: 8px;
+margin-bottom: 15px;
+}
 /* Tabla de puntajes (Grid CSS) */
 #score-grid {
 display: grid;
@@ -154,7 +163,7 @@ background-color: #3E2723; /* Color de líneas de división */
 border: 4px solid #3E2723;
 border-radius: 4px;
 overflow: auto;
-flex: 1;
+min-width: 100%;
 box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 .cell {
@@ -164,11 +173,18 @@ justify-content: center;
 padding: 4px;
 font-weight: 800; /* Texto bien grueso */
 font-size: 1.1rem;
-min-width: 65px;
-min-height: 45px;
+min-width: 70px;
+min-height: 50px;
 position: relative;
 text-align: center;
 overflow: hidden;
+}
+/* Celdas de categorías fijas durante el scroll */
+.category-cell {
+position: sticky;
+left: 0;
+z-index: 10;
+box-shadow: 2px 0 5px rgba(0,0,0,0.2);
 }
 .player-header {
 height: 85px !important;
@@ -195,7 +211,8 @@ background-color: rgba(0,0,0,0.1) !important; /* Feedback visual sutil */
 .header-col {
 background-color: var(--color-fondo);
 color: var(--color-texto);
-font-size: 0.9rem;
+font-size: 1rem;
+font-weight: bold;
 }
 /* --- ESTILOS DE JUGADOR ELIMINADO --- */
 .dead-cell {
@@ -253,6 +270,7 @@ gap: 12px;
     border: 2px solid var(--color-gold); /* Golden border */
     border-radius: 6px;
     transition: all 0.2s ease;
+    color: #3E2723;
 }
 .score-val-btn:hover {
     background-color: #e8e8c0;
@@ -289,7 +307,7 @@ color: #3E2723;
 font-size: 1.1rem;
 }
 .login-error {
-color: var(--color-error);
+color: var(--color-gold);
 font-weight: bold;
 margin-top: 15px;
 font-size: 1.05rem;
@@ -303,18 +321,31 @@ top: 8px;
 left: 50%;
 transform: translateX(-50%);
 font-size: 1.4rem;
+color: gold;
 text-shadow: 0 0 5px gold, 0 0 8px gold;
-animation: pulse 1.5s infinite;
 z-index: 10;
 display: flex;
 justify-content: center;
 align-items: center;
 width: 100%;
 height: 20px;
+opacity: 0;
+animation: crownAppear 0.8s forwards;
 }
-@keyframes pulse {
-0%, 100% { transform: translateX(-50%) scale(1); }
-50% { transform: translateX(-50%) scale(1.1); }
+.crown-appear {
+animation: crownAppear 0.8s forwards;
+}
+.crown-disappear {
+animation: crownDisappear 0.5s forwards;
+}
+@keyframes crownAppear {
+0% { opacity: 0; transform: translateX(-50%) scale(0.5); text-shadow: 0 0 0 gold; }
+50% { opacity: 1; transform: translateX(-50%) scale(1.2); text-shadow: 0 0 5px gold; }
+100% { opacity: 1; transform: translateX(-50%) scale(1); text-shadow: 0 0 5px gold, 0 0 8px gold; }
+}
+@keyframes crownDisappear {
+0% { opacity: 1; transform: translateX(-50%) scale(1); text-shadow: 0 0 5px gold, 0 0 8px gold; }
+100% { opacity: 0; transform: translateX(-50%) scale(0.8); text-shadow: 0 0 0 gold; }
 }
 /* --- MEDIA QUERIES PARA RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
@@ -337,8 +368,8 @@ width: 100%;
 .cell {
 padding: 3px;
 font-size: 0.95rem;
-min-width: 55px;
-min-height: 40px;
+min-width: 60px; /* Aumentado para mejor legibilidad */
+min-height: 45px; /* Ajustado */
 }
 .turn-label {
 font-size: 1.4rem;
@@ -350,6 +381,9 @@ top: 5px;
 }
 .category-header-mobile {
 font-size: 0.75rem !important;
+}
+.score-container {
+margin: 0 -10px; /* Compensar el padding para scroll completo */
 }
 }
 @media (max-width: 480px) {
@@ -367,16 +401,16 @@ font-size: 0.85rem;
 font-size: 1.5rem;
 }
 .cell {
-font-size: 0.8rem;
-min-width: 45px;
-min-height: 35px;
+font-size: 0.85rem; /* Aumentado para mejor legibilidad */
+min-width: 55px; /* Aumentado para mejor legibilidad */
+min-height: 40px; /* Ajustado */
 padding: 2px;
 }
 .turn-label {
 font-size: 1.2rem;
 }
 .header-col {
-font-size: 0.7rem;
+font-size: 0.75rem;
 }
 .leader-crown {
 font-size: 0.9rem;
@@ -404,7 +438,7 @@ font-size: 1.4rem;
 }
 .cell {
 font-size: 1.3rem;
-min-width: 80px;
+min-width: 75px; /* Aumentado para mejor legibilidad */
 min-height: 55px;
 }
 .turn-label {
@@ -586,7 +620,9 @@ opacity: 0;
 </div>
 <div id="anotador-screen" class="screen">
 <div id="turn-label" class="turn-label">Turno de:</div>
+<div class="score-container">
 <div id="score-grid">
+</div>
 </div>
 <button id="btn-anotador-back" onclick="navTo('menu')" style="margin-top:15px;">Volver al Menú</button>
 </div>
@@ -665,7 +701,8 @@ sendAccessNotification(emailInput);
 // Ir a la pantalla de inicio
 navTo('home');
 } else {
-// Mostrar error
+// Mostrar error en color dorado
+errorElement.style.color = 'var(--color-gold)';
 errorElement.style.display = 'block';
 setTimeout(() => {
 errorElement.style.display = 'none';
@@ -718,7 +755,8 @@ function saveGameSecure() {
 const data = {
 names: app.jugadores,
 scores: app.puntajes,
-colors: app.jugador_colores // Añadir colores para persistencia
+colors: app.jugador_colores, // Añadir colores para persistencia
+currentTurn: app.current_turn // Guardar el turno actual
 };
 // Encriptación básica (para mejor seguridad, usar librería como CryptoJS)
 const encrypted = btoa(JSON.stringify(data));
@@ -731,6 +769,7 @@ try {
 const decrypted = JSON.parse(atob(encrypted));
 app.jugadores = decrypted.names || [];
 app.puntajes = decrypted.scores || {};
+app.current_turn = decrypted.currentTurn || 0; // Restaurar el turno actual
 // Cargar colores si existen, de lo contrario usar valores por defecto
 app.jugador_colores = decrypted.colors || app.jugador_colores.slice(0, app.jugadores.length);
 return true;
@@ -747,11 +786,11 @@ const color_names = {
 "en": {"red": "Red", "blue": "Blue", "green": "Green", "orange": "Orange", "purple": "Purple", "brown": "Brown", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Yellow", "deeppink": "Deep Pink", "gold": "Gold", "turquoise": "Turquoise", "silver": "Silver", "black": "Black"},
 "en-US": {"red": "Red", "blue": "Blue", "green": "Green", "orange": "Orange", "purple": "Purple", "brown": "Brown", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Yellow", "deeppink": "Deep Pink", "gold": "Gold", "turquoise": "Turquoise", "silver": "Silver", "black": "Black"},
 "pt": {"red": "Vermelho", "blue": "Azul", "green": "Verde", "orange": "Laranja", "purple": "Roxo", "brown": "Marrom", "magenta": "Magenta", "cyan": "Ciano", "yellow": "Amarelo", "deeppink": "Rosa", "gold": "Dourado", "turquoise": "Turquesa", "silver": "Prata", "black": "Preto"},
-"fr": {"red": "Rouge", "blue": "Bleu", "green": "Vert", "orange": "Orange", "purple": "Violet", "brown": "Marron", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Jaune", "deeppink": "Rose Foncé", "gold": "Or", "turquoise": "Turquoise", "silver": "Argent", "black": "Noir"},
+"fr": {"red": "Rouge", "blue": "Blue", "green": "Vert", "orange": "Orange", "purple": "Violet", "brown": "Marron", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Jaune", "deeppink": "Rose Foncé", "gold": "Or", "turquoise": "Turquoise", "silver": "Argent", "black": "Noir"},
 "id": {"red": "Merah", "blue": "Biru", "green": "Hijau", "orange": "Oranye", "purple": "Ungu", "brown": "Coklat", "magenta": "Magenta", "cyan": "Sian", "yellow": "Kuning", "deeppink": "Merah Muda", "gold": "Emas", "turquoise": "Turkis", "silver": "Perak", "black": "Hitam"},
 "de": {"red": "Rot", "blue": "Blau", "green": "Grün", "orange": "Orange", "purple": "Lila", "brown": "Braun", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Gelb", "deeppink": "Dunkelpink", "gold": "Gold", "turquoise": "Türkis", "silver": "Silber", "black": "Schwarz"},
 "tr": {"red": "Kırmızı", "blue": "Mavi", "green": "Yeşil", "orange": "Turuncu", "purple": "Mor", "brown": "Kahverengi", "magenta": "Macenta", "cyan": "Cam mavisi", "yellow": "Sarı", "deeppink": "Derin Pembe", "gold": "Altın", "turquoise": "Turkuaz", "silver": "Gümüş", "black": "Siyah"},
-"it": {"red": "Rosso", "blue": "Blu", "green": "Verde", "orange": "Arancione", "purple": "Viola", "brown": "Marrone", "magenta": "Magenta", "cyan": "Ciano", "yellow": "Giallo", "deeppink": "Rosa Intenso", "gold": "Oro", "turquoise": "Turchese", "silver": "Argento", "black": "Nero"},
+"it": {"red": "Rosso", "blue": "Blue", "green": "Verde", "orange": "Arancione", "purple": "Viola", "brown": "Marrone", "magenta": "Magenta", "cyan": "Ciano", "yellow": "Giallo", "deeppink": "Rosa Intenso", "gold": "Oro", "turquoise": "Turchese", "silver": "Argento", "black": "Nero"},
 "pl": {"red": "Czerwony", "blue": "Niebieski", "green": "Zielony", "orange": "Pomarańczowy", "purple": "Fioletowy", "brown": "Brązowy", "magenta": "Magenta", "cyan": "Cyjan", "yellow": "Żółty", "deeppink": "Jasnoróżowy", "gold": "Złoty", "turquoise": "Turkusowy", "silver": "Srebrny", "black": "Czarny"},
 "vi": {"red": "Đỏ", "blue": "Xanh dương", "green": "Xanh lá", "orange": "Cam", "purple": "Tím", "brown": "Nâu", "magenta": "Magenta", "cyan": "Xanh lơ", "yellow": "Vàng", "deeppink": "Hồng đậm", "gold": "Vàng óng", "turquoise": "Xanh ngọc", "silver": "Bạc", "black": "Đen"},
 "nl": {"red": "Rood", "blue": "Blauw", "green": "Groen", "orange": "Oranje", "purple": "Paars", "brown": "Bruin", "magenta": "Magenta", "cyan": "Cyaan", "yellow": "Geel", "deeppink": "Diep Roze", "gold": "Goud", "turquoise": "Turkoois", "silver": "Zilver", "black": "Zwart"},
@@ -759,20 +798,20 @@ const color_names = {
 "zh": {"red": "红色", "blue": "蓝色", "green": "绿色", "orange": "橙色", "purple": "紫色", "brown": "棕色", "magenta": "洋红色", "cyan": "青色", "yellow": "黄色", "deeppink": "深粉色", "gold": "金色", "turquoise": "绿松石色", "silver": "银色", "black": "黑色"}
 };
 const translations = {
-"es": {"home_welcome": "BIENVENIDOS AL ANOTADOR DE GENERALA", "home_title": "COMENZAR", "home_lang": "SELECCIONAR IDIOMA", "welcome": "Bienvenidos al Anotador de Generala", "player_name_hint": "Nombre del jugador (máx 6)", "new_game": "Nueva Partida", "load_game": "Cargar Partida", "back_to_menu": "Volver al Menú", "turn_of": "Turno de:", "select_color": "Seleccionar Color", "select_score": "Seleccionar Puntaje", "error": "Error", "choose_language": "Elegir Idioma", "confirm": "Confirmar", "confirm_turn": "¿Seguro que quieres anotar en {target} siendo turno de {current}?", "yes": "Sí", "no": "No", "max_players": "Máximo 10 jugadores.", "min_players": "Mínimo 2 jugadores.", "no_saved_game": "No hay partida guardada.", "category_header": "Categoría", "category_header_mobile": "Categ.", "scratch": "Tachar", "end_game": "Fin del Juego", "winner_msg": "ha ganado!!", "congrats": "¡Felicitaciones al campeón!", "tie_message": "¡Empate! Dos o más jugadores han logrado la misma puntuación final." },
-"en": {"home_welcome": "WELCOME TO THE GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "SELECT LANGUAGE", "welcome": "Welcome to the Generala Scorekeeper", "player_name_hint": "Player Name (max 6)", "new_game": "New Game", "load_game": "Load Game", "back_to_menu": "Back to Menu", "turn_of": "Turn of:", "select_color": "Select Color", "select_score": "Select Score", "error": "Error", "choose_language": "Choose Language", "confirm": "Confirm", "confirm_turn": "Are you sure you want to score on {target} while it is {current}'s turn?", "yes": "Yes", "no": "No", "max_players": "Maximum 10 players.", "min_players": "Minimum 2 players.", "no_saved_game": "No saved game found.", "category_header": "Category", "category_header_mobile": "Categ.", "scratch": "Scratch", "end_game": "End of the Game", "winner_msg": "has won!!", "congrats": "Congratulations to the champion!", "tie_message": "It's a tie! Two or more players have achieved the same final score." },
-"en-US": {"home_welcome": "WELCOME TO THE YAHTZEE SCOREKEEPER", "home_title": "START", "home_lang": "SELECT LANGUAGE", "welcome": "Welcome to the Yahtzee Scorekeeper", "player_name_hint": "Player Name (max 6)", "new_game": "New Game", "load_game": "Load Game", "back_to_menu": "Back to Menu", "turn_of": "Turn of:", "select_color": "Select Color", "select_score": "Select Score", "error": "Error", "choose_language": "Choose Language", "confirm": "Confirm", "confirm_turn": "Are you sure you want to score on {target} while it is {current}'s turn?", "yes": "Yes", "no": "No", "max_players": "Maximum 10 players.", "min_players": "Minimum 2 players.", "no_saved_game": "No saved game found.", "category_header": "Category", "category_header_mobile": "Categ.", "scratch": "Scratch", "end_game": "End of the Game", "winner_msg": "has won!!", "congrats": "Congratulations to the champion!", "tie_message": "It's a tie! Two or more players have achieved the same final score." },
-"pt": {"home_welcome": "BEM-VINDO AO CONTADOR DE GENERALA", "home_title": "COMEÇAR", "home_lang": "SELECCIONAR IDIOMA", "welcome": "Bem-vindo ao Marcador de Generala", "player_name_hint": "Nome do jogador (máx 6)", "new_game": "Novo Jogo", "load_game": "Carregar Jogo", "back_to_menu": "Voltar ao Menu", "turn_of": "Vez de:", "select_color": "Selecionar Cor", "select_score": "Selecionar Pontuação", "error": "Erro", "choose_language": "Escolher Idioma", "confirm": "Confirmar", "confirm_turn": "Tem certeza de que deseja anotar em {target} enquanto é a vez de {current}?", "yes": "Sim", "no": "Não", "max_players": "Máximo de 10 jogadores.", "min_players": "Mínimo de 2 jogadores.", "no_saved_game": "Nenhum jogo salvo.", "category_header": "Categoria", "category_header_mobile": "Categ.", "scratch": "Tachar", "end_game": "Fim do Jogo", "winner_msg": "venceu!!", "congrats": "Parabéns ao campeão!", "tie_message": "Empate! Dois ou mais jogadores alcançaram a mesma pontuação final." },
-"fr": {"home_welcome": "BIENVENUE DANS LE COMPTEUR DE GENERALA", "home_title": "COMMENCER", "home_lang": "CHOISIR LA LANGUE", "welcome": "Bienvenue sur le compteur de Generala", "player_name_hint": "Nom du joueur (max 6)", "new_game": "Nouvelle Partie", "load_game": "Charger la Partie", "back_to_menu": "Retour au Menu", "turn_of": "À vous de jouer:", "select_color": "Choisir la Couleur", "select_score": "Choisir le Score", "error": "Erreur", "choose_language": "Choisir la Langue", "confirm": "Confirmer", "confirm_turn": "Êtes-vous sûr de vouloir enregistrer le score sur {target} alors que c'est le tour de {current} ?", "yes": "Oui", "no": "Non", "max_players": "Maximum 10 joueurs.", "min_players": "Minimum 2 joueurs.", "no_saved_game": "Aucune partie sauvegardée.", "category_header": "Catégorie", "category_header_mobile": "Categ.", "scratch": "Effacer", "end_game": "Fin du Jeu", "winner_msg": "a gagné!!", "congrats": "Félicitations au champion!", "tie_message": "Match nul ! Deux joueurs ou plus ont obtenu le même score final." },
-"id": {"home_welcome": "SELAMAT DATANG DI PENCATAT GENERALA", "home_title": "MULAI", "home_lang": "PILIH BAHASA", "welcome": "Selamat datang di Pembukuan Generala", "player_name_hint": "Nama Pemain (maks 6)", "new_game": "Permainan Baru", "load_game": "Muat Permainan", "back_to_menu": "Kembali ke Menu", "turn_of": "Giliran:", "select_color": "Pilih Warna", "select_score": "Pilih Skor", "error": "Kesalahan", "choose_language": "Pilih Bahasa", "confirm": "Konfirmasi", "confirm_turn": "Apakah Anda yakin ingin mencatat skor di {target} sementara giliran {current}?", "yes": "Ya", "no": "Tidak", "max_players": "Maksimal 10 pemain.", "min_players": "Minimal 2 pemain.", "no_saved_game": "Tidak ada permainan tersimpan.", "category_header": "Kategori", "category_header_mobile": "Categ.", "scratch": "Hapus", "end_game": "Permainan Selesai", "winner_msg": "menang!!", "congrats": "Selamat kepada sang juara!", "tie_message": "Seri! Dua atau lebih pemain mencapai skor akhir yang sama." },
-"de": {"home_welcome": "WILLKOMMEN BEIM GENERALA-SCOREKEEPER", "home_title": "STARTEN", "home_lang": "SPRACHE WÄHLEN", "welcome": "Willkommen beim Generala-Punkteverwalter", "player_name_hint": "Spielername (max 6)", "new_game": "Neues Spiel", "load_game": "Spiel Laden", "back_to_menu": "Zurück zum Menü", "turn_of": "Am Zug:", "select_color": "Farbe auswählen", "select_score": "Punktzahl auswählen", "error": "Fehler", "choose_language": "Sprache wählen", "confirm": "Bestätigen", "confirm_turn": "Bist du sicher, dass du bei {target} Punkte notieren möchtest, während {current} am Zug ist?", "yes": "Ja", "no": "Nein", "max_players": "Maximum 10 Spieler.", "min_players": "Minimum 2 Spieler.", "no_saved_game": "Kein gespeichertes Spiel gefunden.", "category_header": "Kategorie", "category_header_mobile": "Categ.", "scratch": "Löschen", "end_game": "Spiel Ende", "winner_msg": "hat gewonnen!!", "congrats": "Glückwunsch an den Champion!", "tie_message": "Unentschieden! Zwei oder mehr Spieler haben die gleiche Endpunktzahl erreicht." },
-"tr": {"home_welcome": "GENERALA PUAN TABLOSUNA HOŞ GELDİNİZ", "home_title": "BAŞLA", "home_lang": "DİLİ SEÇ", "welcome": "Generala Puan Tablosuna Hoşgeldiniz", "player_name_hint": "Oyuncu Adı (maks 6)", "new_game": "Yeni Oyun", "load_game": "Oyunu Yükle", "back_to_menu": "Menüye Dön", "turn_of": "Sıra:", "select_color": "Renk Seç", "select_score": "Puan Seç", "error": "Hata", "choose_language": "Dil Seç", "confirm": "Onayla", "confirm_turn": "{target} için puan eklemek istediğinizden emin misiniz? Sıra {current}.", "yes": "Evet", "no": "Hayır", "max_players": "Maksimum 10 oyuncu.", "min_players": "Minimum 2 oyuncu.", "no_saved_game": "Kayıtlı oyun bulunamadı.", "category_header": "Kategori", "category_header_mobile": "Categ.", "scratch": "Sil", "end_game": "Oyunun Sonu", "winner_msg": "kazandı!!", "congrats": "Şampiyona tebrikler!", "tie_message": "Beraberlik! İki veya daha fazla oyuncu aynı puanı elde etti." },
-"it": {"home_welcome": "BENVENUTI AL REGISTRATORE DI GENERALA", "home_title": "INIZIA", "home_lang": "SELEZIONA LINGUA", "welcome": "Benvenuti al Segnapunti di Generala", "player_name_hint": "Nome del giocatore (max 6)", "new_game": "Nuova Partita", "load_game": "Carica Partita", "back_to_menu": "Torna al Menù", "turn_of": "Tocca a:", "select_color": "Seleziona Colore", "select_score": "Seleziona Punteggio", "error": "Errore", "choose_language": "Scegli Lingua", "confirm": "Conferma", "confirm_turn": "Sei sicuro di voler annotare il punteggio per {target} mentre tocca a {current}?", "yes": "Sì", "no": "No", "max_players": "Massimo 10 giocatori.", "min_players": "Minimo 2 giocatori.", "no_saved_game": "Nessuna partita salvata.", "category_header": "Categoria", "category_header_mobile": "Categ.", "scratch": "Cancella", "end_game": "Fine del Gioco", "winner_msg": "ha vinto!!", "congrats": "Congratulazioni al campione!", "tie_message": "Pareggio! Due o più giocatori hanno raggiunto lo stesso punteggio finale." },
-"pl": {"home_welcome": "WITAMY W GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "WYBIERZ JĘZYK", "welcome": "Witamy w notatniku do Generala", "player_name_hint": "Imię gracza (maks 6)", "new_game": "Nowa Gra", "load_game": "Wczytaj Grę", "back_to_menu": "Powrót do Menu", "turn_of": "Ruch:", "select_color": "Wybierz kolor", "select_score": "Wybierz wynik", "error": "Błąd", "choose_language": "Wybierz język", "confirm": "Potwierdź", "confirm_turn": "Czy na pewno chcesz zanotować wynik dla {target}, podczas gdy kolej {current}?", "yes": "Tak", "no": "Nie", "max_players": "Maksymalnie 10 graczy.", "min_players": "Minimalnie 2 graczy.", "no_saved_game": "Nie znaleziono zapisanej gry.", "category_header": "Kategoria", "category_header_mobile": "Categ.", "scratch": "Skreśl", "end_game": "Koniec Gry", "winner_msg": "wygrał!!", "congrats": "Gratulacje dla mistrza!", "tie_message": "Remis! Dwóch lub więcej graczy osiągnęło ten sam wynik końcowy." },
-"vi": {"home_welcome": "CHÀO MỪNG ĐẾN VỚI BẢNG ĐIỂM GENERALA", "home_title": "BẮT ĐẦU", "home_lang": "CHỌN NGÔN NGỮ", "welcome": "Chào mừng đến với Bảng Ghi Điểm Generala", "player_name_hint": "Tên người chơi (tối đa 6)", "new_game": "Trò chơi Mới", "load_game": "Tải Trò Chơi", "back_to_menu": "Quay lại Menu", "turn_of": "Lượt của:", "select_color": "Chọn Màu", "select_score": "Chọn Điểm số", "error": "Lỗi", "choose_language": "Chọn Ngôn ngữ", "confirm": "Xác nhận", "confirm_turn": "Bạn có chắc chắn muốn ghi điểm cho {target} trong khi đến lượt {current} không?", "yes": "Vâng", "no": "Không", "max_players": "Tối đa 10 người chơi.", "min_players": "Tối thiểu 2 người chơi.", "no_saved_game": "Không có trò chơi được lưu.", "category_header": "Loại", "category_header_mobile": "Loại", "scratch": "Xoá", "end_game": "Kết thúc trò chơi", "winner_msg": "đã thắng!!", "congrats": "Chúc mừng nhà vô địch!", "tie_message": "Hòa! Hai hoặc nhiều người chơi đã đạt được cùng điểm số cuối cùng." },
-"nl": {"home_welcome": "WELKOM BIJ DE GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "TAAL SELECTEREN", "welcome": "Welkom bij de Generala Scorekeeper", "player_name_hint": "Spelersnaam (max 6)", "new_game": "Nieuw Spel", "load_game": "Spel Laden", "back_to_menu": "Terug naar Menu", "turn_of": "Beurt van:", "select_color": "Selecteer Kleur", "select_score": "Selecteer Score", "error": "Fout", "choose_language": "Kies Taal", "confirm": "Bevestigen", "confirm_turn": "Weet je zeker dat je punten wilt noteren voor {target} terwijl het de beurt is van {current}?", "yes": "Ja", "no": "Nee", "max_players": "Maximaal 10 spelers.", "min_players": "Minimaal 2 spelers.", "no_saved_game": "Geen opgeslagen spel gevonden.", "category_header": "Categorie", "category_header_mobile": "Categ.", "scratch": "Doorstrepen", "end_game": "Einde van het Spel", "winner_msg": "heeft gewonnen!!", "congrats": "Gefeliciteerd aan de kampioen!", "tie_message": "Gelijkspel! Twee of meer spelers hebben dezelfde eindscore bereikt." },
-"ro": {"home_welcome": "BINE AȚI VENIT LA TABELUL DE SCOR GENERALA", "home_title": "PORNEȘTE", "home_lang": "SELECTEAZĂ LIMBA", "welcome": "Bine ați venit la Tabelul de Scor Generala", "player_name_hint": "Numele jucătorului (max 6)", "new_game": "Joc Nou", "load_game": "Încarcă Joc", "back_to_menu": "Înapoi la Meniu", "turn_of": "Rândul lui:", "select_color": "Selectează Culoare", "select_score": "Selectează Scor", "error": "Eroare", "choose_language": "Alege Limba", "confirm": "Confirmă", "confirm_turn": "Ești sigur că vrei să notezi scorul la {target} în timp ce este rândul lui {current}?", "yes": "Da", "no": "Nu", "max_players": "Maximum 10 jucători.", "min_players": "Minimum 2 jucători.", "no_saved_game": "Niciun joc salvat găsit.", "category_header": "Categorie", "category_header_mobile": "Categ.", "scratch": "Anulează", "end_game": "Sfârșitul Jocului", "winner_msg": "a câștigat!!", "congrats": "Felicitări campionului!", "tie_message": "Egalitate! Doi sau mai mulți jucători au obținut același scor final." },
-"zh": {"home_welcome": "欢迎使用GENERALA记分员", "home_title": "开始", "home_lang": "选择语言", "welcome": "欢迎使用Generala记分员", "player_name_hint": "玩家名称 (最多6个字符)", "new_game": "新游戏", "load_game": "加载游戏", "back_to_menu": "返回菜单", "turn_of": "轮到：", "select_color": "选择颜色", "select_score": "选择分数", "error": "错误", "choose_language": "选择语言", "confirm": "确认", "confirm_turn": "您确定要为{target}记分，而轮到{current}？", "yes": "是", "no": "否", "max_players": "最多10名玩家。", "min_players": "最少2名玩家。", "no_saved_game": "未找到已保存的游戏。", "category_header": "类别", "category_header_mobile": "类.", "scratch": "划掉", "end_game": "游戏结束", "winner_msg": "获胜！！", "congrats": "向冠军表示祝贺！", "tie_message": "平局！两名或多名玩家获得了相同的最终分数。" }
+"es": {"home_welcome": "BIENVENIDOS AL ANOTADOR DE GENERALA", "home_title": "COMENZAR", "home_lang": "SELECCIONAR IDIOMA", "welcome": "Bienvenidos al Anotador de Generala", "player_name_hint": "Nombre del jugador (máx 6)", "new_game": "Nueva Partida", "load_game": "Cargar Partida", "back_to_menu": "Volver al Menú", "turn_of": "Turno de:", "select_color": "Seleccionar Color", "select_score": "Seleccionar Puntaje", "error": "Error", "choose_language": "Elegir Idioma", "confirm": "Confirmar", "confirm_turn": "¿Seguro que quieres anotar en {target} siendo turno de {current}?", "yes": "Sí", "no": "No", "max_players": "Máximo 10 jugadores.", "min_players": "Mínimo 2 jugadores.", "no_saved_game": "No hay partida guardada.", "category_header": "Categoría", "category_header_mobile": "Categ.", "scratch": "Tachar", "end_game": "Fin del Juego", "winner_msg": "ha ganado!!", "congrats": "¡Felicitaciones al campeón!", "tie_message": "han empatado, ¡felicidades a los campeones!!" },
+"en": {"home_welcome": "WELCOME TO THE GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "SELECT LANGUAGE", "welcome": "Welcome to the Generala Scorekeeper", "player_name_hint": "Player Name (max 6)", "new_game": "New Game", "load_game": "Load Game", "back_to_menu": "Back to Menu", "turn_of": "Turn of:", "select_color": "Select Color", "select_score": "Select Score", "error": "Error", "choose_language": "Choose Language", "confirm": "Confirm", "confirm_turn": "Are you sure you want to score on {target} while it is {current}'s turn?", "yes": "Yes", "no": "No", "max_players": "Maximum 10 players.", "min_players": "Minimum 2 players.", "no_saved_game": "No saved game found.", "category_header": "Category", "category_header_mobile": "Categ.", "scratch": "Scratch", "end_game": "End of the Game", "winner_msg": "has won!!", "congrats": "Congratulations to the champion!", "tie_message": "have tied, congratulations to the champions!!" },
+"en-US": {"home_welcome": "WELCOME TO THE YAHTZEE SCOREKEEPER", "home_title": "START", "home_lang": "SELECT LANGUAGE", "welcome": "Welcome to the Yahtzee Scorekeeper", "player_name_hint": "Player Name (max 6)", "new_game": "New Game", "load_game": "Load Game", "back_to_menu": "Back to Menu", "turn_of": "Turn of:", "select_color": "Select Color", "select_score": "Select Score", "error": "Error", "choose_language": "Choose Language", "confirm": "Confirm", "confirm_turn": "Are you sure you want to score on {target} while it is {current}'s turn?", "yes": "Yes", "no": "No", "max_players": "Maximum 10 players.", "min_players": "Minimum 2 players.", "no_saved_game": "No saved game found.", "category_header": "Category", "category_header_mobile": "Categ.", "scratch": "Scratch", "end_game": "End of the Game", "winner_msg": "has won!!", "congrats": "Congratulations to the champion!", "tie_message": "have tied, congratulations to the champions!!" },
+"pt": {"home_welcome": "BEM-VINDO AO CONTADOR DE GENERALA", "home_title": "COMEÇAR", "home_lang": "SELECCIONAR IDIOMA", "welcome": "Bem-vindo ao Marcador de Generala", "player_name_hint": "Nome do jogador (máx 6)", "new_game": "Novo Jogo", "load_game": "Carregar Jogo", "back_to_menu": "Voltar ao Menu", "turn_of": "Vez de:", "select_color": "Selecionar Cor", "select_score": "Selecionar Pontuação", "error": "Erro", "choose_language": "Escolher Idioma", "confirm": "Confirmar", "confirm_turn": "Tem certeza de que deseja anotar em {target} enquanto é a vez de {current}?", "yes": "Sim", "no": "Não", "max_players": "Máximo de 10 jogadores.", "min_players": "Mínimo de 2 jogadores.", "no_saved_game": "Nenhum jogo salvo.", "category_header": "Categoria", "category_header_mobile": "Categ.", "scratch": "Tachar", "end_game": "Fim do Jogo", "winner_msg": "venceu!!", "congrats": "Parabéns ao campeão!", "tie_message": "empataram, parabéns aos campeões!!" },
+"fr": {"home_welcome": "BIENVENUE DANS LE COMPTEUR DE GENERALA", "home_title": "COMMENCER", "home_lang": "CHOISIR LA LANGUE", "welcome": "Bienvenue sur le compteur de Generala", "player_name_hint": "Nom du joueur (max 6)", "new_game": "Nouvelle Partie", "load_game": "Charger la Partie", "back_to_menu": "Retour au Menu", "turn_of": "À vous de jouer:", "select_color": "Choisir la Couleur", "select_score": "Choisir le Score", "error": "Erreur", "choose_language": "Choisir la Langue", "confirm": "Confirmer", "confirm_turn": "Êtes-vous sûr de vouloir enregistrer le score sur {target} alors que c'est le tour de {current} ?", "yes": "Oui", "no": "Non", "max_players": "Maximum 10 joueurs.", "min_players": "Minimum 2 joueurs.", "no_saved_game": "Aucune partie sauvegardée.", "category_header": "Catégorie", "category_header_mobile": "Categ.", "scratch": "Effacer", "end_game": "Fin du Jeu", "winner_msg": "a gagné!!", "congrats": "Félicitations au champion!", "tie_message": "ont fait match nul, félicitations aux champions!!" },
+"id": {"home_welcome": "SELAMAT DATANG DI PENCATAT GENERALA", "home_title": "MULAI", "home_lang": "PILIH BAHASA", "welcome": "Selamat datang di Pembukuan Generala", "player_name_hint": "Nama Pemain (maks 6)", "new_game": "Permainan Baru", "load_game": "Muat Permainan", "back_to_menu": "Kembali ke Menu", "turn_of": "Giliran:", "select_color": "Pilih Warna", "select_score": "Pilih Skor", "error": "Kesalahan", "choose_language": "Pilih Bahasa", "confirm": "Konfirmasi", "confirm_turn": "Apakah Anda yakin ingin mencatat skor di {target} sementara giliran {current}?", "yes": "Ya", "no": "Tidak", "max_players": "Maksimal 10 pemain.", "min_players": "Minimal 2 pemain.", "no_saved_game": "Tidak ada permainan tersimpan.", "category_header": "Kategori", "category_header_mobile": "Categ.", "scratch": "Hapus", "end_game": "Permainan Selesai", "winner_msg": "menang!!", "congrats": "Selamat kepada sang juara!", "tie_message": "seri, selamat kepada para juara!!" },
+"de": {"home_welcome": "WILLKOMMEN BEIM GENERALA-SCOREKEEPER", "home_title": "STARTEN", "home_lang": "SPRACHE WÄHLEN", "welcome": "Willkommen beim Generala-Punkteverwalter", "player_name_hint": "Spielername (max 6)", "new_game": "Neues Spiel", "load_game": "Spiel Laden", "back_to_menu": "Zurück zum Menü", "turn_of": "Am Zug:", "select_color": "Farbe auswählen", "select_score": "Punktzahl auswählen", "error": "Fehler", "choose_language": "Sprache wählen", "confirm": "Bestätigen", "confirm_turn": "Bist du sicher, dass du bei {target} Punkte notieren möchtest, während {current} am Zug ist?", "yes": "Ja", "no": "Nein", "max_players": "Maximum 10 Spieler.", "min_players": "Minimum 2 Spieler.", "no_saved_game": "Kein gespeichertes Spiel gefunden.", "category_header": "Kategorie", "category_header_mobile": "Categ.", "scratch": "Löschen", "end_game": "Spiel Ende", "winner_msg": "hat gewonnen!!", "congrats": "Glückwunsch an den Champion!", "tie_message": "haben gleichgezogen, Glückwunsch an die Champions!!" },
+"tr": {"home_welcome": "GENERALA PUAN TABLOSUNA HOŞ GELDİNİZ", "home_title": "BAŞLA", "home_lang": "DİLİ SEÇ", "welcome": "Generala Puan Tablosuna Hoşgeldiniz", "player_name_hint": "Oyuncu Adı (maks 6)", "new_game": "Yeni Oyun", "load_game": "Oyunu Yükle", "back_to_menu": "Menüye Dön", "turn_of": "Sıra:", "select_color": "Renk Seç", "select_score": "Puan Seç", "error": "Hata", "choose_language": "Dil Seç", "confirm": "Onayla", "confirm_turn": "{target} için puan eklemek istediğinizden emin misiniz? Sıra {current}.", "yes": "Evet", "no": "Hayır", "max_players": "Maksimum 10 oyuncu.", "min_players": "Minimum 2 oyuncu.", "no_saved_game": "Kayıtlı oyun bulunamadı.", "category_header": "Kategori", "category_header_mobile": "Categ.", "scratch": "Sil", "end_game": "Oyunun Sonu", "winner_msg": "kazandı!!", "congrats": "Şampiyona tebrikler!", "tie_message": "berabere kaldılar, şampiyonlara tebrikler!!" },
+"it": {"home_welcome": "BENVENUTI AL REGISTRATORE DI GENERALA", "home_title": "INIZIA", "home_lang": "SELEZIONA LINGUA", "welcome": "Benvenuti al Segnapunti di Generala", "player_name_hint": "Nome del giocatore (max 6)", "new_game": "Nuova Partita", "load_game": "Carica Partita", "back_to_menu": "Torna al Menù", "turn_of": "Tocca a:", "select_color": "Seleziona Colore", "select_score": "Seleziona Punteggio", "error": "Errore", "choose_language": "Scegli Lingua", "confirm": "Conferma", "confirm_turn": "Sei sicuro di voler annotare il punteggio per {target} mentre tocca a {current}?", "yes": "Sì", "no": "No", "max_players": "Massimo 10 giocatori.", "min_players": "Minimo 2 giocatori.", "no_saved_game": "Nessuna partita salvata.", "category_header": "Categoria", "category_header_mobile": "Categ.", "scratch": "Cancella", "end_game": "Fine del Gioco", "winner_msg": "ha vinto!!", "congrats": "Congratulazioni al campione!", "tie_message": "hanno pareggiato, congratulazioni ai campioni!!" },
+"pl": {"home_welcome": "WITAMY W GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "WYBIERZ JĘZYK", "welcome": "Witamy w notatniku do Generala", "player_name_hint": "Imię gracza (maks 6)", "new_game": "Nowa Gra", "load_game": "Wczytaj Grę", "back_to_menu": "Powrót do Menu", "turn_of": "Ruch:", "select_color": "Wybierz kolor", "select_score": "Wybierz wynik", "error": "Błąd", "choose_language": "Wybierz język", "confirm": "Potwierdź", "confirm_turn": "Czy na pewno chcesz zanotować wynik dla {target}, podczas gdy kolej {current}?", "yes": "Tak", "no": "Nie", "max_players": "Maksymalnie 10 graczy.", "min_players": "Minimalnie 2 graczy.", "no_saved_game": "Nie znaleziono zapisanej gry.", "category_header": "Kategoria", "category_header_mobile": "Categ.", "scratch": "Skreśl", "end_game": "Koniec Gry", "winner_msg": "wygrał!!", "congrats": "Gratulacje dla mistrza!", "tie_message": "zremisowali, gratulacje mistrzom!!" },
+"vi": {"home_welcome": "CHÀO MỪNG ĐẾN VỚI BẢNG ĐIỂM GENERALA", "home_title": "BẮT ĐẦU", "home_lang": "CHỌN NGÔN NGỮ", "welcome": "Chào mừng đến với Bảng Ghi Điểm Generala", "player_name_hint": "Tên người chơi (tối đa 6)", "new_game": "Trò chơi Mới", "load_game": "Tải Trò Chơi", "back_to_menu": "Quay lại Menu", "turn_of": "Lượt của:", "select_color": "Chọn Màu", "select_score": "Chọn Điểm số", "error": "Lỗi", "choose_language": "Chọn Ngôn ngữ", "confirm": "Xác nhận", "confirm_turn": "Bạn có chắc chắn muốn ghi điểm cho {target} trong khi đến lượt {current} không?", "yes": "Vâng", "no": "Không", "max_players": "Tối đa 10 người chơi.", "min_players": "Tối thiểu 2 người chơi.", "no_saved_game": "Không có trò chơi được lưu.", "category_header": "Loại", "category_header_mobile": "Loại", "scratch": "Xoá", "end_game": "Kết thúc trò chơi", "winner_msg": "đã thắng!!", "congrats": "Chúc mừng nhà vô địch!", "tie_message": "đã hòa, chúc mừng các nhà vô địch!!" },
+"nl": {"home_welcome": "WELKOM BIJ DE GENERALA SCOREKEEPER", "home_title": "START", "home_lang": "TAAL SELECTEREN", "welcome": "Welkom bij de Generala Scorekeeper", "player_name_hint": "Spelersnaam (max 6)", "new_game": "Nieuw Spel", "load_game": "Spel Laden", "back_to_menu": "Terug naar Menu", "turn_of": "Beurt van:", "select_color": "Selecteer Kleur", "select_score": "Selecteer Score", "error": "Fout", "choose_language": "Kies Taal", "confirm": "Bevestigen", "confirm_turn": "Weet je zeker dat je punten wilt noteren voor {target} terwijl het de beurt is van {current}?", "yes": "Ja", "no": "Nee", "max_players": "Maximaal 10 spelers.", "min_players": "Minimaal 2 spelers.", "no_saved_game": "Geen opgeslagen spel gevonden.", "category_header": "Categorie", "category_header_mobile": "Categ.", "scratch": "Doorstrepen", "end_game": "Einde van het Spel", "winner_msg": "heeft gewonnen!!", "congrats": "Gefeliciteerd aan de kampioen!", "tie_message": "hebben gelijk gespeeld, gefeliciteerd aan de kampioenen!!" },
+"ro": {"home_welcome": "BINE AȚI VENIT LA TABELUL DE SCOR GENERALA", "home_title": "PORNEȘTE", "home_lang": "SELECTEAZĂ LIMBA", "welcome": "Bine ați venit la Tabelul de Scor Generala", "player_name_hint": "Numele jucătorului (max 6)", "new_game": "Joc Nou", "load_game": "Încarcă Joc", "back_to_menu": "Înapoi la Meniu", "turn_of": "Rândul lui:", "select_color": "Selectează Culoare", "select_score": "Selectează Scor", "error": "Eroare", "choose_language": "Alege Limba", "confirm": "Confirmă", "confirm_turn": "Ești sigur că vrei să notezi scorul la {target} în timp ce este rândul lui {current}?", "yes": "Da", "no": "Nu", "max_players": "Maximum 10 jucători.", "min_players": "Minimum 2 jucători.", "no_saved_game": "Niciun joc salvat găsit.", "category_header": "Categorie", "category_header_mobile": "Categ.", "scratch": "Anulează", "end_game": "Sfârșitul Jocului", "winner_msg": "a câștigat!!", "congrats": "Felicitări campionului!", "tie_message": "au făcut egalitate, felicitări campionilor!!" },
+"zh": {"home_welcome": "欢迎使用GENERALA记分员", "home_title": "开始", "home_lang": "选择语言", "welcome": "欢迎使用Generala记分员", "player_name_hint": "玩家名称 (最多6个字符)", "new_game": "新游戏", "load_game": "加载游戏", "back_to_menu": "返回菜单", "turn_of": "轮到：", "select_color": "选择颜色", "select_score": "选择分数", "error": "错误", "choose_language": "选择语言", "confirm": "确认", "confirm_turn": "您确定要为{target}记分，而轮到{current}？", "yes": "是", "no": "否", "max_players": "最多10名玩家。", "min_players": "最少2名玩家。", "no_saved_game": "未找到已保存的游戏。", "category_header": "类别", "category_header_mobile": "类.", "scratch": "划掉", "end_game": "游戏结束", "winner_msg": "获胜！！", "congrats": "向冠军表示祝贺！", "tie_message": "已平局，向冠军们表示祝贺！！" }
 };
 // Orden correcto de categorías: Categ. 1, 2, 3, 4, 5, 6, Esc., Full., Pok., Gen., 2Gen., y luego Total como fila separada
 const categories_translations = {
@@ -812,7 +851,8 @@ puntajes: {},
 current_turn: 0,
 dead_players: new Set(),
 victoria_mostrada: false,
-leader_idx: -1
+leader_idx: -1,
+game_started: false // Para controlar si el juego ya ha comenzado
 };
 // ----------------- UTILIDADES -----------------
 function getText(key) {
@@ -841,11 +881,19 @@ if (app.lang === "en-US" && num === 50) return "50";
 if (app.lang === "fr" && num === 0) return "zéro";
 return num.toString();
 }
-// Ahora limita a 6 caracteres en lugar de 9
-function abreviarNombre(nombre, num_players) {
+// Capitalizar nombre: Primera letra mayúscula, resto minúsculas
+function capitalizeName(nombre) {
 if (!nombre) return "";
 nombre = nombre.trim();
-// Limitar a 6 caracteres máximo, sin excepciones
+if (nombre.length === 0) return "";
+// Convertir primera letra a mayúscula, resto a minúsculas
+return nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+}
+// Limitar a 6 caracteres y capitalizar
+function formatPlayerName(nombre, num_players) {
+if (!nombre) return "";
+nombre = capitalizeName(nombre);
+// Limitar a 6 caracteres máximo
 if (nombre.length > 6) {
 return nombre.substring(0, 6);
 }
@@ -952,8 +1000,8 @@ e.target.value = e.target.value.substring(0, 6);
 app.jugadores[idx] = e.target.value;
 };
 input.onblur = (e) => {
-// Limpiar espacios al inicio y fin, y asegurar límite de 6 caracteres
-app.jugadores[idx] = e.target.value.trim().substring(0, 6);
+// Aplicar formato capitalizado y limitar a 6 caracteres
+app.jugadores[idx] = formatPlayerName(e.target.value, app.jugadores.length);
 e.target.value = app.jugadores[idx];
 };
 const btnColor = document.createElement('button');
@@ -1026,21 +1074,23 @@ showCustomModal(getText('select_color'), content);
 }
 // ----------------- GAME START / LOAD -----------------
 function startGame() {
-// Validar y limitar nombres antes de comenzar
+// Validar y formatear nombres antes de comenzar
 for(let i=0; i<app.jugadores.length; i++) {
 let raw = app.jugadores[i].trim();
-if (!raw) raw = `Jug ${i+1}`; // Nombre más corto para ajustarse a 6 caracteres
-// Limitar estrictamente a 6 caracteres
-app.jugadores[i] = abreviarNombre(raw, app.jugadores.length);
+if (!raw) raw = `J${i+1}`; // Nombre más corto para ajustarse a 6 caracteres
+// Formatear nombre (capitalizar y limitar)
+app.jugadores[i] = formatPlayerName(raw, app.jugadores.length);
 }
 app.current_turn = 0;
 app.puntajes = {};
 app.victoria_mostrada = false;
 app.dead_players = new Set();
+app.leader_idx = -1;
+app.game_started = true; // Marcar que el juego ha comenzado
 buildTable();
 navTo('anotador');
 updateTurnLabel();
-updateLeaderCrown();
+updateLeaderCrown(); // Esto no mostrará la corona al inicio porque no hay puntajes
 saveGame(); // Guardar el estado inicial con los nombres y colores correctos
 }
 function loadGame() {
@@ -1050,8 +1100,8 @@ showPopup(getText('error'), getText('no_saved_game'));
 return;
 }
 if (loadGameSecure()) {
-// Al cargar, asegurar que los nombres no excedan 6 caracteres
-app.jugadores = app.jugadores.map(name => abreviarNombre(name, app.jugadores.length));
+// Al cargar, formatear los nombres correctamente
+app.jugadores = app.jugadores.map(name => formatPlayerName(name, app.jugadores.length));
 resetPlayersUI();
 app.jugadores.forEach((n, i) => {
 if(playerWidgets[i]) playerWidgets[i].input.value = n;
@@ -1069,9 +1119,10 @@ cell.innerText = value === "X" ? "X" : translateNumber(value);
 }
 });
 updateTotals();
+// Marcar que el juego ha comenzado (estamos en una partida cargada)
+app.game_started = true;
 updateLeaderCrown();
 checkVictory();
-app.current_turn = 0;
 updateTurnLabel();
 }
 }
@@ -1085,20 +1136,48 @@ updateTurnLabel();
 }
 function updateTurnLabel() {
 if(app.jugadores[app.current_turn]) {
-document.getElementById('turn-label').innerText = getText('turn_of') + " " + app.jugadores[app.current_turn];
+// Buscar el líder actual para mostrar en el turno
+let leaderName = getLeaderName();
+let currentPlayer = app.jugadores[app.current_turn];
+let turnText = `${getText('turn_of')} ${currentPlayer}`;
+// Si el jugador actual es el líder, añadir un indicador
+if (leaderName && currentPlayer === leaderName) {
+turnText += " 👑";
 }
+document.getElementById('turn-label').innerText = turnText;
+}
+}
+function getLeaderName() {
+let numCats = getCategories().length - 1; // Excluir "Categ."
+let highestScore = -1;
+let leaderIdx = -1;
+// Encontrar el puntaje más alto
+for(let j=0; j<app.jugadores.length; j++) {
+if (app.dead_players.has(j)) continue; // Ignorar jugadores eliminados
+let score = parseInt(app.puntajes[`${j}-total`] || "0");
+if (score > highestScore) {
+highestScore = score;
+leaderIdx = j;
+}
+}
+return leaderIdx >= 0 ? app.jugadores[leaderIdx] : null;
 }
 function buildTable() {
 const grid = document.getElementById('score-grid');
 grid.innerHTML = "";
+const container = document.querySelector('.score-container');
+container.scrollLeft = 0; // Resetear scroll al reconstruir la tabla
 const cats = getCategories();
 const numPlayers = app.jugadores.length;
+// Ajustar el diseño para mostrar siempre las primeras 4 columnas visibles
+const visibleCols = Math.min(4, numPlayers);
+const totalCols = numPlayers + 1; // +1 para la columna de categorías
 grid.style.gridTemplateColumns = `1.2fr repeat(${numPlayers}, 1fr)`;
-// Rows
+// Crear las filas y celdas
 cats.forEach((catName, rIdx) => {
-// Category Label
+// Category Label - fijar para scroll horizontal
 let cLabel = document.createElement('div');
-cLabel.className = 'cell header-col';
+cLabel.className = 'cell header-col category-cell';
 cLabel.innerText = catName;
 let rowBgColor = (rIdx % 2 === 0) ? 'var(--color-row1)' : 'var(--color-row2)';
 cLabel.style.backgroundColor = rowBgColor;
@@ -1117,7 +1196,7 @@ cellDiv.dataset.originalColor = cKey;
 if (rIdx === 0) {
 // Primera fila para el nombre del jugador con espacio para la corona
 cellDiv.className = 'cell player-header';
-cellDiv.innerText = abreviarNombre(app.jugadores[p], numPlayers);
+cellDiv.innerText = formatPlayerName(app.jugadores[p], numPlayers);
 cellDiv.id = `header-p-${p}`;
 cellDiv.dataset.originalColor = cKey;
 cellDiv.style.position = 'relative';
@@ -1142,7 +1221,7 @@ grid.appendChild(cellDiv);
 });
 // Añadir fila de TOTAL al final
 let totalLabel = document.createElement('div');
-totalLabel.className = 'cell header-col';
+totalLabel.className = 'cell header-col category-cell';
 totalLabel.innerText = "TOTAL";
 totalLabel.style.backgroundColor = 'var(--color-row1)';
 grid.appendChild(totalLabel);
@@ -1156,7 +1235,10 @@ totalCell.style.backgroundColor = getHexColor(cKey);
 totalCell.style.color = getTextColorForBg(cKey);
 grid.appendChild(totalCell);
 }
+// No mostrar la corona al inicio del juego
+if (app.game_started) {
 updateLeaderCrown();
+}
 }
 function selectScore(playerIdx, catKey) {
 if (playerIdx !== app.current_turn) {
@@ -1187,7 +1269,6 @@ b.style.borderColor = "2px solid var(--color-gold)"; // Borde dorado antiguo
 b.onclick = () => confirmScore(playerIdx, catKey, (val === "X" ? "X" : val.toString()));
 content.appendChild(b);
 });
-// Cambiar el color del título del modal a dorado antiguo
 showCustomModal(getText('select_score') + ": " + title, content, true);
 }
 function confirmScore(playerIdx, catKey, val) {
@@ -1238,7 +1319,17 @@ app.puntajes[`${j}-total`] = total.toString();
 }
 function updateLeaderCrown() {
 // Remover coronas existentes
-document.querySelectorAll('.leader-crown').forEach(el => el.remove());
+document.querySelectorAll('.leader-crown').forEach(el => {
+el.classList.add('crown-disappear');
+// Remover después de la animación
+setTimeout(() => {
+if (el.parentNode && el.parentNode.contains(el)) {
+el.parentNode.removeChild(el);
+}
+}, 500);
+});
+// Solo mostrar corona después de que el juego ha comenzado y hay puntajes
+if (!app.game_started) return;
 let numCats = getCategories().length - 1; // Excluir "Categ."
 let highestScore = -1;
 let leaders = [];
@@ -1253,6 +1344,8 @@ leaders = [j];
 leaders.push(j);
 }
 }
+// Solo agregar corona si hay un puntaje positivo
+if (highestScore <= 0) return;
 // Agregar corona a cada líder (en caso de empate), ahora arriba del nombre
 leaders.forEach(leaderIdx => {
 let header = document.getElementById(`header-p-${leaderIdx}`);
@@ -1260,8 +1353,14 @@ if (header) {
 let crown = document.createElement('div');
 crown.className = 'leader-crown';
 crown.innerHTML = '👑';
+// Añadir animación de aparición
+setTimeout(() => {
+crown.classList.add('crown-appear');
+}, 100);
 header.appendChild(crown); // La corona ahora se agrega sobre el nombre, no lo tapa
 }
+// Actualizar el turno para mostrar quién es el líder
+updateTurnLabel();
 });
 }
 function checkVictory() {
@@ -1290,25 +1389,25 @@ applyDeadStyle(j, false);
 }
 }
 let vivos = app.jugadores.map((_, i) => i).filter(i => !app.dead_players.has(i));
-// Verificar si hay solo un jugador vivo o si todos los jugadores han completado
-let singleWinner = vivos.length === 1;
-let allCompleted = true;
+// Verificar si algún jugador ha completado todas sus categorías
+let completedCategories = [];
+let allCategoriesFilled = true;
 for(let j=0; j<app.jugadores.length; j++) {
 if (app.dead_players.has(j)) continue;
+let completed = true;
 for(let i=0; i<numCats; i++) {
 let val = app.puntajes[`${j}-${i}`];
 if (!val || val === "0") {
-allCompleted = false;
-break;
+completed = false;
+allCategoriesFilled = false;
 }
 }
-if (!allCompleted) break;
+if (completed) completedCategories.push(j);
 }
-
-// Si hay un solo jugador vivo o todos han completado
-if ((singleWinner || allCompleted) && !app.victoria_mostrada) {
+// Si todos completaron todas las categorías
+if (allCategoriesFilled && !app.victoria_mostrada) {
 app.victoria_mostrada = true;
-// Encontrar los puntajes más altos
+// Encontrar los puntajes más altos entre los jugadores vivos
 let maxScore = -1;
 let winners = [];
 for(let j of vivos) {
@@ -1322,6 +1421,37 @@ winners.push(j);
 }
 // Mostrar animación para ganadores (puede ser empate o individual)
 showWinnerAnimation(winners);
+return;
+}
+// Verificar si hay un ganador definitivo (imposible que otros lo alcancen)
+if (vivos.length === 1 && !app.victoria_mostrada) {
+app.victoria_mostrada = true;
+showWinnerAnimation([vivos[0]]);
+return;
+}
+// Verificar si algún jugador vivo tiene un puntaje tan alto que es imposible de alcanzar
+for(let j of vivos) {
+let currentScore = parseInt(app.puntajes[`${j}-total`] || "0");
+let maxRemainingForOthers = 0;
+for(let i=0; i<numCats; i++) {
+// Sumar el máximo posible para las categorías restantes
+maxRemainingForOthers += max_points_map[i+1];
+}
+// Verificar si algún otro jugador puede alcanzarlo
+let canBeBeaten = false;
+for(let k of vivos) {
+if (k === j) continue;
+let otherScore = parseInt(app.puntajes[`${k}-total`] || "0");
+if (otherScore + maxRemainingForOthers >= currentScore) {
+canBeBeaten = true;
+break;
+}
+}
+if (!canBeBeaten && !app.victoria_mostrada) {
+app.victoria_mostrada = true;
+showWinnerAnimation([j]);
+return;
+}
 }
 }
 function applyDeadStyle(playerIdx, isDead) {
@@ -1362,6 +1492,7 @@ document.getElementById('modal-title').innerText = title;
 document.getElementById('modal-body').innerHTML = "";
 let p = document.createElement('p');
 p.innerText = bodyText;
+p.style.color = 'var(--color-gold)'; // Color dorado para el texto del error
 document.getElementById('modal-body').appendChild(p);
 let btnBox = document.getElementById('modal-buttons');
 btnBox.innerHTML = '<button onclick="closeModal()">OK</button>';
@@ -1416,7 +1547,7 @@ let winnerNames = winnerIndices.map(idx => app.jugadores[idx]);
 let winnerTitle = document.createElement('h1');
 winnerTitle.className = 'winner-title';
 
-// Mostrar nombres de jugadores en caso de empate
+// Mensaje de empate simplificado
 let winnerMessageText = '';
 if (isTie) {
 winnerMessageText = `${winnerNames.join(', ')} ${getText('tie_message')}`;
@@ -1424,12 +1555,12 @@ winnerMessageText = `${winnerNames.join(', ')} ${getText('tie_message')}`;
 winnerMessageText = `${winnerNames[0]} ${getText('winner_msg')}`;
 }
 
-winnerTitle.innerHTML = isTie ? `¡${winnerNames.join(', ')} ${getText('tie_message')}!` : winnerMessageText;
+winnerTitle.innerHTML = winnerMessageText;
 
 // Mensaje adicional
 let message = document.createElement('div');
 message.className = 'winner-message';
-message.innerHTML = isTie ? getText('tie_message') : getText('congrats');
+message.innerHTML = isTie ? getText('tie_message').split(',')[0] : getText('congrats');
 
 // Contenedor de resumen
 let summaryContainer = document.createElement('div');
@@ -1450,8 +1581,8 @@ summaryGrid.appendChild(corner);
 app.jugadores.forEach((p, i) => {
 let pc = document.createElement('div');
 pc.className = 'summary-cell summary-header';
-// Mostrar nombre truncado a 6 caracteres
-pc.innerText = abreviarNombre(p, app.jugadores.length);
+// Mostrar nombre formateado
+pc.innerText = formatPlayerName(p, app.jugadores.length);
 pc.style.backgroundColor = getHexColor(app.jugador_colores[i]);
 pc.style.color = getTextColorForBg(app.jugador_colores[i]);
 summaryGrid.appendChild(pc);
@@ -1523,6 +1654,8 @@ closeButton.innerText = getText('back_to_menu');
 closeButton.onclick = function() {
 document.body.removeChild(overlay);
 navTo('menu');
+// Resetear el estado del juego
+app.game_started = false;
 };
 
 // Agregar elementos al overlay
@@ -1629,6 +1762,19 @@ window.addEventListener('resize', function() {
 if (document.getElementById('anotador-screen').classList.contains('active')) {
 buildTable();
 updateLeaderCrown();
+}
+});
+
+// Asegurar que la columna de categorías siga fija durante el scroll horizontal
+document.querySelector('.score-container').addEventListener('scroll', function() {
+const grid = document.getElementById('score-grid');
+const categoryCells = grid.querySelectorAll('.category-cell');
+const scrollLeft = this.scrollLeft;
+// Ajustar la sombra para indicar que hay contenido oculto
+if (scrollLeft > 0) {
+grid.style.boxShadow = 'inset 10px 0 15px -10px rgba(0,0,0,0.5)';
+} else {
+grid.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,0.5)';
 }
 });
 </script>
