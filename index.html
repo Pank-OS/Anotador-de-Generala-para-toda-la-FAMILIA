@@ -185,6 +185,7 @@ position: sticky;
 left: 0;
 z-index: 10;
 box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+background-color: var(--color-fondo);
 }
 .player-header {
 height: 85px !important;
@@ -355,7 +356,7 @@ font-size: 0.9rem;
 .home-title {
 font-size: 1.8rem;
 }
-button {
+.button {
 padding: 12px;
 font-size: 1.0rem;
 }
@@ -393,7 +394,7 @@ font-size: 0.85rem;
 .home-title {
 font-size: 1.5rem;
 }
-button {
+.button {
 padding: 8px;
 font-size: 0.85rem;
 }
@@ -432,7 +433,7 @@ gap: 8px;
 .home-title {
 font-size: 2.6rem;
 }
-button {
+.button {
 padding: 20px;
 font-size: 1.4rem;
 }
@@ -637,10 +638,22 @@ opacity: 0;
 </div>
 <script>
 // ----------------- SONIDO MEJORADO (Web Audio API) -----------------
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx;
+function initAudio() {
+// Solo inicializar una vez
+if (!audioCtx) {
+audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+console.log("Audio context initialized");
+}
+// Reanudar si está suspendido
+if (audioCtx.state === 'suspended') {
+audioCtx.resume().then(() => {
+console.log("Audio context resumed");
+});
+}
+}
 function playSound() {
-// Sonido "Pop" adictivo y notorio
-if (audioCtx.state === 'suspended') audioCtx.resume();
+initAudio();
 const t = audioCtx.currentTime;
 const oscillator = audioCtx.createOscillator();
 const gainNode = audioCtx.createGain();
@@ -683,8 +696,8 @@ localStorage.removeItem('generala_authenticated');
 localStorage.removeItem('generala_secure_data');
 localStorage.removeItem('generala_access_logs');
 }
-// Llamar a la función para resetear al cargar la página
-resetAuthentication();
+// No resetear al cargar la página
+// resetAuthentication(); // Comentado para mantener autenticación persistente
 function validateLogin() {
 const passwordInput = document.getElementById('password-input').value.trim();
 const emailInput = document.getElementById('email-input').value.trim().toLowerCase();
@@ -715,8 +728,11 @@ const authData = localStorage.getItem('generala_authenticated');
 if (authData) {
 try {
 const parsedData = JSON.parse(authData);
-// Verificar que el correo aún esté autorizado
-if (AUTHORIZED_EMAILS.includes(parsedData.email.toLowerCase())) {
+const authTime = new Date(parsedData.timestamp);
+const now = new Date();
+// Verificar si la autenticación no ha expirado (24 horas)
+const hoursDiff = (now - authTime) / (1000 * 60 * 60);
+if (hoursDiff < 24 && AUTHORIZED_EMAILS.includes(parsedData.email.toLowerCase())) {
 // Ya está autenticado, ir directamente a home
 navTo('home');
 return;
@@ -725,7 +741,7 @@ return;
 console.error("Error parsing auth data", e);
 }
 }
-// Si no está autenticado, mostrar pantalla de login
+// Si no está autenticado o ha expirado, mostrar pantalla de login
 navTo('login');
 }
 // Función para enviar notificación de acceso (simulación)
@@ -756,7 +772,9 @@ const data = {
 names: app.jugadores,
 scores: app.puntajes,
 colors: app.jugador_colores, // Añadir colores para persistencia
-currentTurn: app.current_turn // Guardar el turno actual
+currentTurn: app.current_turn, // Guardar turno actual
+gameStarted: app.game_started, // Guardar estado del juego
+deadPlayers: Array.from(app.dead_players) // Convertir Set a Array
 };
 // Encriptación básica (para mejor seguridad, usar librería como CryptoJS)
 const encrypted = btoa(JSON.stringify(data));
@@ -769,7 +787,10 @@ try {
 const decrypted = JSON.parse(atob(encrypted));
 app.jugadores = decrypted.names || [];
 app.puntajes = decrypted.scores || {};
-app.current_turn = decrypted.currentTurn || 0; // Restaurar el turno actual
+app.current_turn = decrypted.currentTurn || 0; // Restaurar turno actual
+app.game_started = decrypted.gameStarted || false;
+// Convertir array de deadPlayers a Set
+app.dead_players = new Set(decrypted.deadPlayers || []);
 // Cargar colores si existen, de lo contrario usar valores por defecto
 app.jugador_colores = decrypted.colors || app.jugador_colores.slice(0, app.jugadores.length);
 return true;
@@ -786,7 +807,7 @@ const color_names = {
 "en": {"red": "Red", "blue": "Blue", "green": "Green", "orange": "Orange", "purple": "Purple", "brown": "Brown", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Yellow", "deeppink": "Deep Pink", "gold": "Gold", "turquoise": "Turquoise", "silver": "Silver", "black": "Black"},
 "en-US": {"red": "Red", "blue": "Blue", "green": "Green", "orange": "Orange", "purple": "Purple", "brown": "Brown", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Yellow", "deeppink": "Deep Pink", "gold": "Gold", "turquoise": "Turquoise", "silver": "Silver", "black": "Black"},
 "pt": {"red": "Vermelho", "blue": "Azul", "green": "Verde", "orange": "Laranja", "purple": "Roxo", "brown": "Marrom", "magenta": "Magenta", "cyan": "Ciano", "yellow": "Amarelo", "deeppink": "Rosa", "gold": "Dourado", "turquoise": "Turquesa", "silver": "Prata", "black": "Preto"},
-"fr": {"red": "Rouge", "blue": "Blue", "green": "Vert", "orange": "Orange", "purple": "Violet", "brown": "Marron", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Jaune", "deeppink": "Rose Foncé", "gold": "Or", "turquoise": "Turquoise", "silver": "Argent", "black": "Noir"},
+"fr": {"red": "Rouge", "blue": "Bleu", "green": "Vert", "orange": "Orange", "purple": "Violet", "brown": "Marron", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Jaune", "deeppink": "Rose Foncé", "gold": "Or", "turquoise": "Turquoise", "silver": "Argent", "black": "Noir"},
 "id": {"red": "Merah", "blue": "Biru", "green": "Hijau", "orange": "Oranye", "purple": "Ungu", "brown": "Coklat", "magenta": "Magenta", "cyan": "Sian", "yellow": "Kuning", "deeppink": "Merah Muda", "gold": "Emas", "turquoise": "Turkis", "silver": "Perak", "black": "Hitam"},
 "de": {"red": "Rot", "blue": "Blau", "green": "Grün", "orange": "Orange", "purple": "Lila", "brown": "Braun", "magenta": "Magenta", "cyan": "Cyan", "yellow": "Gelb", "deeppink": "Dunkelpink", "gold": "Gold", "turquoise": "Türkis", "silver": "Silber", "black": "Schwarz"},
 "tr": {"red": "Kırmızı", "blue": "Mavi", "green": "Yeşil", "orange": "Turuncu", "purple": "Mor", "brown": "Kahverengi", "magenta": "Macenta", "cyan": "Cam mavisi", "yellow": "Sarı", "deeppink": "Derin Pembe", "gold": "Altın", "turquoise": "Turkuaz", "silver": "Gümüş", "black": "Siyah"},
@@ -882,22 +903,25 @@ if (app.lang === "fr" && num === 0) return "zéro";
 return num.toString();
 }
 // Capitalizar nombre: Primera letra mayúscula, resto minúsculas
-function capitalizeName(nombre) {
+function capitalizeFirstLetter(str) {
+if (!str || str.length === 0) return str;
+return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+// Formatear nombre de jugador - Primera letra mayúscula, resto minúsculas, máximo 6 caracteres
+function formatPlayerName(nombre) {
 if (!nombre) return "";
 nombre = nombre.trim();
 if (nombre.length === 0) return "";
-// Convertir primera letra a mayúscula, resto a minúsculas
-return nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+// Capitalizar y limitar a 6 caracteres
+return capitalizeFirstLetter(nombre).substring(0, 6);
 }
-// Limitar a 6 caracteres y capitalizar
-function formatPlayerName(nombre, num_players) {
+// Capitalizar nombre completo (para títulos, etc)
+function capitalizeFullName(nombre) {
 if (!nombre) return "";
-nombre = capitalizeName(nombre);
-// Limitar a 6 caracteres máximo
-if (nombre.length > 6) {
-return nombre.substring(0, 6);
-}
-return nombre;
+nombre = nombre.trim().toLowerCase();
+return nombre.split(' ')
+.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+.join(' ');
 }
 function getHexColor(name) {
 return hex_colors[name] || name;
@@ -918,6 +942,8 @@ if (screenId === 'menu') {
 // Mantener los colores al volver al menú
 restorePlayerColors();
 }
+// Reiniciar el contexto de audio al cambiar de pantalla
+initAudio();
 }
 // Restaurar colores de jugadores al volver al menú
 function restorePlayerColors() {
@@ -948,6 +974,7 @@ const idiomas = [
 idiomas.forEach(([code, name]) => {
 let btn = document.createElement('button');
 btn.innerText = name;
+btn.className = 'button'; // Añadir clase para los estilos
 btn.onclick = () => setLanguage(code);
 container.appendChild(btn);
 });
@@ -993,15 +1020,16 @@ input.type = 'text';
 input.className = 'player-name-input';
 input.placeholder = getText('player_name_hint');
 input.maxLength = 6; // Límite de 6 caracteres
-input.value = app.jugadores[idx];
+// Formatear nombre al cargar
+input.value = formatPlayerName(app.jugadores[idx]);
 input.oninput = (e) => {
 // Limitar a 6 caracteres y actualizar el estado
 e.target.value = e.target.value.substring(0, 6);
 app.jugadores[idx] = e.target.value;
 };
 input.onblur = (e) => {
-// Aplicar formato capitalizado y limitar a 6 caracteres
-app.jugadores[idx] = formatPlayerName(e.target.value, app.jugadores.length);
+// Formatear nombre al perder foco
+app.jugadores[idx] = formatPlayerName(e.target.value);
 e.target.value = app.jugadores[idx];
 };
 const btnColor = document.createElement('button');
@@ -1058,6 +1086,7 @@ let colors = color_names[app.lang] || color_names["es"];
 Object.keys(colors).forEach(k => {
 let b = document.createElement('button');
 b.innerText = colors[k];
+b.className = 'button'; // Añadir clase para estilos consistentes
 b.style.background = getHexColor(k);
 // LOGICA ESTRICTA TAMBIEN EN POPUP
 b.style.color = getTextColorForBg(k);
@@ -1079,7 +1108,7 @@ for(let i=0; i<app.jugadores.length; i++) {
 let raw = app.jugadores[i].trim();
 if (!raw) raw = `J${i+1}`; // Nombre más corto para ajustarse a 6 caracteres
 // Formatear nombre (capitalizar y limitar)
-app.jugadores[i] = formatPlayerName(raw, app.jugadores.length);
+app.jugadores[i] = formatPlayerName(raw);
 }
 app.current_turn = 0;
 app.puntajes = {};
@@ -1090,7 +1119,7 @@ app.game_started = true; // Marcar que el juego ha comenzado
 buildTable();
 navTo('anotador');
 updateTurnLabel();
-updateLeaderCrown(); // Esto no mostrará la corona al inicio porque no hay puntajes
+// No mostrar corona al inicio del juego
 saveGame(); // Guardar el estado inicial con los nombres y colores correctos
 }
 function loadGame() {
@@ -1101,7 +1130,7 @@ return;
 }
 if (loadGameSecure()) {
 // Al cargar, formatear los nombres correctamente
-app.jugadores = app.jugadores.map(name => formatPlayerName(name, app.jugadores.length));
+app.jugadores = app.jugadores.map(name => formatPlayerName(name));
 resetPlayersUI();
 app.jugadores.forEach((n, i) => {
 if(playerWidgets[i]) playerWidgets[i].input.value = n;
@@ -1121,8 +1150,7 @@ cell.innerText = value === "X" ? "X" : translateNumber(value);
 updateTotals();
 // Marcar que el juego ha comenzado (estamos en una partida cargada)
 app.game_started = true;
-updateLeaderCrown();
-checkVictory();
+updateLeaderCrown(false); // false para no animar la corona al cargar
 updateTurnLabel();
 }
 }
@@ -1136,15 +1164,7 @@ updateTurnLabel();
 }
 function updateTurnLabel() {
 if(app.jugadores[app.current_turn]) {
-// Buscar el líder actual para mostrar en el turno
-let leaderName = getLeaderName();
-let currentPlayer = app.jugadores[app.current_turn];
-let turnText = `${getText('turn_of')} ${currentPlayer}`;
-// Si el jugador actual es el líder, añadir un indicador
-if (leaderName && currentPlayer === leaderName) {
-turnText += " 👑";
-}
-document.getElementById('turn-label').innerText = turnText;
+document.getElementById('turn-label').innerText = getText('turn_of') + " " + app.jugadores[app.current_turn];
 }
 }
 function getLeaderName() {
@@ -1196,7 +1216,7 @@ cellDiv.dataset.originalColor = cKey;
 if (rIdx === 0) {
 // Primera fila para el nombre del jugador con espacio para la corona
 cellDiv.className = 'cell player-header';
-cellDiv.innerText = formatPlayerName(app.jugadores[p], numPlayers);
+cellDiv.innerText = formatPlayerName(app.jugadores[p]);
 cellDiv.id = `header-p-${p}`;
 cellDiv.dataset.originalColor = cKey;
 cellDiv.style.position = 'relative';
@@ -1235,9 +1255,9 @@ totalCell.style.backgroundColor = getHexColor(cKey);
 totalCell.style.color = getTextColorForBg(cKey);
 grid.appendChild(totalCell);
 }
-// No mostrar la corona al inicio del juego
+// Solo actualizar la corona si el juego ha comenzado y hay puntajes
 if (app.game_started) {
-updateLeaderCrown();
+updateLeaderCrown(false); // false para no animar al construir la tabla
 }
 }
 function selectScore(playerIdx, catKey) {
@@ -1286,7 +1306,7 @@ app.puntajes[`${playerIdx}-10`] = "X";
 }
 }
 updateTotals();
-updateLeaderCrown();
+updateLeaderCrown(true); // true para animar la corona
 saveGame();
 checkVictory();
 if (playerIdx === app.current_turn && prev === translateNumber(0) && val !== "0") {
@@ -1317,7 +1337,7 @@ app.puntajes[`${j}-total`] = total.toString();
 }
 }
 }
-function updateLeaderCrown() {
+function updateLeaderCrown(animate = true) {
 // Remover coronas existentes
 document.querySelectorAll('.leader-crown').forEach(el => {
 el.classList.add('crown-disappear');
@@ -1353,14 +1373,14 @@ if (header) {
 let crown = document.createElement('div');
 crown.className = 'leader-crown';
 crown.innerHTML = '👑';
-// Añadir animación de aparición
+// Añadir animación de aparición si se solicita
+if (animate) {
 setTimeout(() => {
 crown.classList.add('crown-appear');
 }, 100);
+}
 header.appendChild(crown); // La corona ahora se agrega sobre el nombre, no lo tapa
 }
-// Actualizar el turno para mostrar quién es el líder
-updateTurnLabel();
 });
 }
 function checkVictory() {
@@ -1509,9 +1529,11 @@ let btnBox = document.getElementById('modal-buttons');
 btnBox.innerHTML = "";
 let bYes = document.createElement('button');
 bYes.innerText = getText('yes');
+bYes.className = 'button'; // Añadir clase para estilos consistentes
 bYes.onclick = () => { closeModal(); onYes(); };
 let bNo = document.createElement('button');
 bNo.innerText = getText('no');
+bNo.className = 'button'; // Añadir clase para estilos consistentes
 bNo.onclick = closeModal;
 btnBox.appendChild(bYes);
 btnBox.appendChild(bNo);
@@ -1582,7 +1604,7 @@ app.jugadores.forEach((p, i) => {
 let pc = document.createElement('div');
 pc.className = 'summary-cell summary-header';
 // Mostrar nombre formateado
-pc.innerText = formatPlayerName(p, app.jugadores.length);
+pc.innerText = formatPlayerName(p);
 pc.style.backgroundColor = getHexColor(app.jugador_colores[i]);
 pc.style.color = getTextColorForBg(app.jugador_colores[i]);
 summaryGrid.appendChild(pc);
@@ -1656,6 +1678,7 @@ document.body.removeChild(overlay);
 navTo('menu');
 // Resetear el estado del juego
 app.game_started = false;
+app.victoria_mostrada = false;
 };
 
 // Agregar elementos al overlay
@@ -1709,7 +1732,7 @@ confetti.parentNode.removeChild(confetti);
 }
 
 function playVictorySound() {
-if (audioCtx.state === 'suspended') audioCtx.resume();
+initAudio();
 // Tonos ascendentes para celebración
 const now = audioCtx.currentTime;
 const notes = [440, 554.37, 660, 880, 1320]; // A4, C#5, E5, A5, E6
@@ -1740,8 +1763,10 @@ window.location.protocol = 'https:';
 }
 
 // ----------------- INICIALIZACIÓN -----------------
-// Llamar a la función para verificar autenticación al cargar la página
+// Inicializar audio al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
+initAudio();
+// Verificar autenticación al cargar la página
 checkAuthentication();
 // Registrar service worker para PWA
 if ('serviceWorker' in navigator) {
@@ -1761,14 +1786,13 @@ console.log('Error registrando ServiceWorker:', error);
 window.addEventListener('resize', function() {
 if (document.getElementById('anotador-screen').classList.contains('active')) {
 buildTable();
-updateLeaderCrown();
+updateLeaderCrown(false);
 }
 });
 
 // Asegurar que la columna de categorías siga fija durante el scroll horizontal
 document.querySelector('.score-container').addEventListener('scroll', function() {
 const grid = document.getElementById('score-grid');
-const categoryCells = grid.querySelectorAll('.category-cell');
 const scrollLeft = this.scrollLeft;
 // Ajustar la sombra para indicar que hay contenido oculto
 if (scrollLeft > 0) {
